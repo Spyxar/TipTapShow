@@ -1,6 +1,5 @@
-package net.fabricmc.example;
+package com.spyxar.tiptapshow;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 
 public class RenderableButton
@@ -11,6 +10,10 @@ public class RenderableButton
     private int height;
     private KeyBinding key;
     private boolean isMouseButton;
+    //need to know:
+    // if its a mouse button, and left or right
+    // if its the space bar
+    // all other keys are rendered as the same box, however those listed above should be bigger
 
     public RenderableButton(int x, int y, int width, int height, KeyBinding key)
     {
@@ -20,18 +23,6 @@ public class RenderableButton
         this.height = height;
         this.key = key;
         this.isMouseButton = false;
-    }
-
-    public RenderableButton(int x, int y, int width, int height, KeyBinding key, boolean isMouseButton)
-    {
-        //ToDo how to know what mouse button is which (l or r)
-        //renderablemousebutton class? would make sense cuz its also bigger etc
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.key = null;
-        this.isMouseButton = isMouseButton;
     }
 
     public int getWidth()

@@ -1,39 +1,41 @@
-package net.fabricmc.example.config;
+package com.spyxar.tiptapshow.config;
 
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
-import net.fabricmc.example.ExampleMod;
+import com.spyxar.tiptapshow.TipTapShowMod;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
 import java.io.IOException;
 
-public final class ExampleModConfig
+public final class TipTapShowConfig
 {
     private transient File file;
 
-    public boolean settingA = true;
-    public float settingB = 5f;
+    public boolean renderInGui = true;
+    public int backgroundColor = 0x131314b3;
+    public int pressedBackgroundColor = 0x131314b3;
+    public int keyColor = 0x131314b3;
+    public int pressedKeyColor = 0x131314b3;
 
-    private ExampleModConfig() {}
+    private TipTapShowConfig() {}
 
-    public static ExampleModConfig loadConfig()
+    public static TipTapShowConfig loadConfig()
     {
         File file = new File(
                 FabricLoader.getInstance().getConfigDir().toString(),
-                ExampleMod.MOD_ID + ".toml"
+                TipTapShowMod.MOD_ID + ".toml"
         );
-
-        ExampleModConfig config;
+        TipTapShowConfig config;
         if (file.exists())
         {
             Toml configTOML = new Toml().read(file);
-            config = configTOML.to(ExampleModConfig.class);
+            config = configTOML.to(TipTapShowConfig.class);
             config.file = file;
         }
         else
         {
-            config = new ExampleModConfig();
+            config = new TipTapShowConfig();
             config.file = file;
             config.saveConfig();
         }

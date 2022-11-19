@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "net.fabricmc.example.mixin",
+  "package": "com.spyxar.tiptapshow.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],

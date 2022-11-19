@@ -1,6 +1,6 @@
-package net.fabricmc.example;
+package com.spyxar.tiptapshow;
 
-import net.fabricmc.example.config.ClothConfigScreenFactory;
+import com.spyxar.tiptapshow.config.ClothConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.fabricmc.loader.api.FabricLoader;

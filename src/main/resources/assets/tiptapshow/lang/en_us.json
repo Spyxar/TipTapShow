@@ -1,0 +1,13 @@
+{
+  "config.tiptapshow.title": "Example config",
+  "config.tiptapshow.option.renderingui": "Render in GUI",
+  "config.tiptapshow.description.renderingui": "Whether or not to render the overlay while in a GUI",
+  "config.tiptapshow.option.backgroundcolor": "Background color",
+  "config.tiptapshow.description.backgroundcolor": "The color of the square behind the key",
+  "config.tiptapshow.option.pressedbackgroundcolor": "Clicked background color",
+  "config.tiptapshow.description.pressedbackgroundcolor": "The color of the square behind the key when the key is pressed",
+  "config.tiptapshow.option.keycolor": "Key color",
+  "config.tiptapshow.description.keycolor": "The color of the key",
+  "config.tiptapshow.option.pressedkeycolor": "Pressed key color",
+  "config.tiptapshow.description.pressedkeycolor": "The color of the key when it's pressed"
+}

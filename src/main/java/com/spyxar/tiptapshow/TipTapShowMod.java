@@ -1,13 +1,13 @@
-package net.fabricmc.example;
+package com.spyxar.tiptapshow;
 
+import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.example.config.ExampleModConfig;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 //ToDo: not ready for publish yet, change build.gradle, and fabric.mod and mixins.json and modid
-public class ExampleMod implements ModInitializer
+public class TipTapShowMod implements ModInitializer
 {
     //features:
     //a command to open the config(clothconfig)
@@ -18,12 +18,12 @@ public class ExampleMod implements ModInitializer
     //  a setting that will sync the custom keys with the default color of the keys (wasd, space lmb, rmb)
     //  allow for moving of the display place
     //  set of settings to display certain things: movement keys, mouse keys, space, and cps(always, never, on click)
-    public static final String MOD_ID = "examplemod";
+    public static final String MOD_ID = "tiptapshow";
 
-    public static ExampleMod instance = null;
-    public static ExampleModConfig config = null;
+    public static TipTapShowMod instance = null;
+    public static TipTapShowConfig config = null;
 
-    static Logger LOGGER = LogManager.getLogger("ExampleMod");
+    static Logger LOGGER = LogManager.getLogger("TipTapShow");
 
     @Override
     public void onInitialize()
@@ -33,7 +33,7 @@ public class ExampleMod implements ModInitializer
         // Proceed with mild caution.
 
         instance = this;
-        config = ExampleModConfig.loadConfig();
+        config = TipTapShowConfig.loadConfig();
         System.out.println("Hello Fabric world!");
         HudRenderCallback.EVENT.register(new KeystrokeOverlay());
     }
