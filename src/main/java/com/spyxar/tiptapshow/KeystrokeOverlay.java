@@ -1,23 +1,26 @@
 package com.spyxar.tiptapshow;
 
+import com.spyxar.tiptapshow.components.Row;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class KeystrokeOverlay implements HudRenderCallback
 {
-    //private Row[] rows = config.getrows;
     private static final int STANDARD_SIDE_OFFSET = 25;
     private static final int STANDARD_TOP_OFFSET = 25;
-    private static final int BOX_SIZE = 25;
+    public static final int BOX_SIZE = 25;
+    public static final int ROW_SEPARATOR_SIZE = 1;
+    public static final int ROW_WIDTH = 77;
+    public static final int ROW_HEIGHT_NORMAL = 25;
+    public static final int ROW_HEIGHT_SMALL = 20;
 
+    @SuppressWarnings("RedundantArrayCreation")
     @Override
     public void onHudRender(MatrixStack matrixStack, float tickDelta)
     {
-        int x = 0;
-        int y = 0;
         MinecraftClient client = MinecraftClient.getInstance();
         TipTapShowConfig config = TipTapShowConfig.loadConfig();
         if (client == null)
@@ -25,106 +28,29 @@ public class KeystrokeOverlay implements HudRenderCallback
             TipTapShowMod.LOGGER.error("Client was null, making all renders fail.");
             return;
         }
+        if (client.options.debugEnabled)
+        {
+            return;
+        }
         if (!config.renderInGui && client.currentScreen != null)
         {
             return;
         }
-        //ToDo: just add basic x and y, then dynamic from config
-        // also use scaledwidth and height to make the squares the right size
-        //ToDo: also get vertical exact mid
-        if (client != null)
-        {
-            int width = client.getWindow().getScaledWidth();
-            int height = client.getWindow().getScaledHeight();
+        //ToDo: make use of dynamic display values from the config
+        // We probably will not have to use client.getWindow().getScaledWidth()/getScaledWidth()
+        // because people will just be able to change the display to their liking and depending on their GUI scale/fullscreen
+        // However we may need to do some more math for the text to still be in the middle with a different GUI size, needs testing
 
-            x = width / 2;
-            y = height;
-        }
-        //a row object would be good, so we dont have to do the +1/2/3 and *1/2/3 but can instead use a foreach
-        //and have default row offsets from eachother
-
-        //mouse button size: 25 + 25 + 25 + 2 = 77
-        //so 77 - 1 / 2 is the size per mouse button
-        RenderableButton forwardButton = new RenderableButton(STANDARD_SIDE_OFFSET + 2 * BOX_SIZE + 2, 25 - 1, BOX_SIZE, BOX_SIZE, client.options.forwardKey);
-        RenderableButton leftButton = new RenderableButton(STANDARD_SIDE_OFFSET + 1 * BOX_SIZE + 1, 50, BOX_SIZE, BOX_SIZE, client.options.leftKey);
-        RenderableButton backButton = new RenderableButton(STANDARD_SIDE_OFFSET + 2 * BOX_SIZE + 2, 50, BOX_SIZE, BOX_SIZE, client.options.backKey);
-        RenderableButton rightButton = new RenderableButton(STANDARD_SIDE_OFFSET + 3 * BOX_SIZE + 3, 50, BOX_SIZE, BOX_SIZE, client.options.rightKey);
-        //change to mouse button
-        RenderableButton leftMouseButton = new RenderableButton(STANDARD_SIDE_OFFSET + 1 * BOX_SIZE + 1, 75 + 1, BOX_SIZE, BOX_SIZE, client.options.dropKey);
-        RenderableButton rightMouseButton = new RenderableButton(STANDARD_SIDE_OFFSET + 3 * BOX_SIZE + 3, 75 + 1, BOX_SIZE, BOX_SIZE, client.options.dropKey);
         matrixStack.push();
-        int offset = 25;
-        //setup: 0x + rrggbb + alpha
-        //        DrawableHelper.fill(matrixStack, offset, offset, offset + BOX_SIZE, offset + BOX_SIZE, 0x131314b3);
-        //        client.textRenderer.draw(matrixStack, forwardButton.getText(), BOX_SIZE / 2F + offset - letterWidth / 2F, BOX_SIZE / 2F + offset - textHeight / 2F, 16777215);
-
-//        Row forwardRow = new Row(forwardButton);
-//        Row walkRow = new Row(leftButton, backButton, rightButton);
-//        Row mouseRow = new Row(leftMouseButton, rightMouseButton);
-        //Todo: render all buttons at the same time, same method because this is laggy when button is pressed
-        renderButton(forwardButton, matrixStack);
-        renderButton(leftButton, matrixStack);
-        renderButton(backButton, matrixStack);
-        renderButton(rightButton, matrixStack);
-        renderButton(leftMouseButton, matrixStack);
-        renderButton(rightMouseButton, matrixStack);
-
+        //ToDo: the height stuff is ugly
+        Row row1 = new Row(STANDARD_SIDE_OFFSET, STANDARD_TOP_OFFSET, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{null, client.options.forwardKey, null});
+        Row row2 = new Row(STANDARD_SIDE_OFFSET, STANDARD_TOP_OFFSET + row1.height + ROW_SEPARATOR_SIZE, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{client.options.leftKey, client.options.backKey, client.options.rightKey});
+        Row row3 = new Row(STANDARD_SIDE_OFFSET, STANDARD_TOP_OFFSET + row1.height + row2.height + ROW_SEPARATOR_SIZE * 2, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{client.options.attackKey, client.options.useKey});
+        Row row4 = new Row(STANDARD_SIDE_OFFSET, STANDARD_TOP_OFFSET + row1.height + row2.height + row3.height + ROW_SEPARATOR_SIZE * 3, ROW_WIDTH, ROW_HEIGHT_SMALL, new KeyBinding[]{client.options.jumpKey});
+        row1.render(matrixStack);
+        row2.render(matrixStack);
+        row3.render(matrixStack);
+        row4.render(matrixStack);
         matrixStack.pop();
-    }
-
-    public void renderButton(RenderableButton button, MatrixStack matrixStack)
-    {
-        TipTapShowConfig config = TipTapShowConfig.loadConfig();
-        //correct way of getting the key: MinecraftClient.getInstance().options.sprintKey.getBoundKeyLocalizedText().getString().toUpperCase()
-        //text = client.options.forwardKey.getDefaultKey().getLocalizedText().getString().toUpperCase()
-        MinecraftClient client = MinecraftClient.getInstance();
-        int fillColor = 0;
-        int textColor = 0;
-        //todo mouse button
-        int letterWidth = client.textRenderer.getWidth(button.getKey().getBoundKeyLocalizedText().getString().toUpperCase());
-        if (button.getKey().isPressed())
-        {
-//            fillColor = 0x131314b3;
-//            textColor = 16711680;
-            fillColor = config.pressedBackgroundColor;
-            textColor = config.pressedKeyColor;
-            //            DrawableHelper.fill(matrixStack, button.getX(), button.getY(), button.getX() + button.getWidth(), button.getY() + button.getHeight(), fillColor);
-            //            client.textRenderer.draw(matrixStack, button.getKey().getBoundKeyLocalizedText().getString().toUpperCase(), BOX_SIZE / 2F + button.getX() - letterWidth / 2F, BOX_SIZE / 2F + button.getY() - client.textRenderer.fontHeight / 2F, textColor);
-        }
-        if (!button.getKey().isPressed())
-        {
-//            fillColor = 0x131314b3;
-//            textColor = 16777215;
-            fillColor = config.backgroundColor;
-            textColor = config.keyColor;
-        }
-        DrawableHelper.fill(matrixStack, button.getX(), button.getY(), button.getX() + button.getWidth(), button.getY() + button.getHeight(), fillColor);
-        client.textRenderer.draw(matrixStack, button.getKey().getBoundKeyLocalizedText().getString().toUpperCase(), BOX_SIZE / 2F + button.getX() - letterWidth / 2F, BOX_SIZE / 2F + button.getY() - client.textRenderer.fontHeight / 2F, textColor);
-    }
-
-    public void renderRow(Row row, MatrixStack matrixStack)
-    {
-        MinecraftClient client = MinecraftClient.getInstance();
-        int fillColor = 0;
-        int textColor = 0;
-        //todo mouse button
-        for (RenderableButton button : row.getButtons())
-        {
-            if (button.getKey().isPressed())
-            {
-                fillColor = 0x131314b3;
-                textColor = 16711680;
-                //            DrawableHelper.fill(matrixStack, button.getX(), button.getY(), button.getX() + button.getWidth(), button.getY() + button.getHeight(), fillColor);
-                //            client.textRenderer.draw(matrixStack, button.getKey().getBoundKeyLocalizedText().getString().toUpperCase(), BOX_SIZE / 2F + button.getX() - letterWidth / 2F, BOX_SIZE / 2F + button.getY() - client.textRenderer.fontHeight / 2F, textColor);
-            }
-            if (!button.getKey().isPressed())
-            {
-                fillColor = 0x131314b3;
-                textColor = 16777215;
-            }
-            int letterWidth = client.textRenderer.getWidth(button.getKey().getBoundKeyLocalizedText().getString().toUpperCase());
-            DrawableHelper.fill(matrixStack, button.getX(), button.getY(), button.getX() + button.getWidth(), button.getY() + button.getHeight(), fillColor);
-            client.textRenderer.draw(matrixStack, button.getKey().getBoundKeyLocalizedText().getString().toUpperCase(), BOX_SIZE / 2F + button.getX() - letterWidth / 2F, BOX_SIZE / 2F + button.getY() - client.textRenderer.fontHeight / 2F, textColor);
-        }
     }
 }

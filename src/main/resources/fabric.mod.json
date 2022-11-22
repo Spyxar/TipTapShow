@@ -2,18 +2,19 @@
   "schemaVersion": 1,
   "id": "tiptapshow",
   "version": "${version}",
-  "name": "Tip Tap Show",
+  "name": "TipTapShow",
   "description": "A mod to show your keystrokes ingame",
   "authors": [
     "Spyxar"
   ],
   "contact": {
     "homepage": "https://github.com/Spyxar",
-    "sources": "https://github.com/Spyxar/TipTapShow"
+    "sources": "https://github.com/Spyxar/TipTapShow",
+    "issues": "https://github.com/Spyxar/TipTapShow/issues"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/tiptapshow/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
       "com.spyxar.tiptapshow.TipTapShowMod"
@@ -32,6 +33,14 @@
     "java": ">=17"
   },
   "suggests": {
-    "modmenu": "*"
+    "modmenu": "*",
+    "cloth-config": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/EPFcHVjK8p"
+      }
+    }
   }
 }

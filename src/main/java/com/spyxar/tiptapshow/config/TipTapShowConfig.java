@@ -13,10 +13,12 @@ public final class TipTapShowConfig
     private transient File file;
 
     public boolean renderInGui = true;
-    public int backgroundColor = 0x131314b3;
-    public int pressedBackgroundColor = 0x131314b3;
-    public int keyColor = 0x131314b3;
-    public int pressedKeyColor = 0x131314b3;
+    public boolean countClicksInGui = false;
+    public boolean keyShadow = false;
+    public int backgroundColor = 0x373d47bf;
+    public int pressedBackgroundColor = 0x373d4747;
+    public int keyColor = 16777215;
+    public int pressedKeyColor = 0;
 
     private TipTapShowConfig() {}
 
