@@ -1,12 +1,19 @@
 {
   "config.tiptapshow.title": "TipTapShow config",
+
   "config.tiptapshow.categories.general": "General",
+  "config.tiptapshow.categories.colors": "Colors",
+  "config.tiptapshow.categories.display": "Display",
+  "config.tiptapshow.categories.keydisplay": "Keys",
+
   "config.tiptapshow.option.renderingui": "Render in GUI",
   "config.tiptapshow.description.renderingui": "Whether or not to render the overlay while in a GUI",
   "config.tiptapshow.option.countclicksingui": "Count clicks in GUI",
   "config.tiptapshow.description.countclicksingui": "When enabled, clicks will count when in a screen",
   "config.tiptapshow.option.keyshadow": "Key shadow",
-  "config.tiptapshow.description.keyshadow": "When enabled, the key text will be rendered with a shadow ",
+  "config.tiptapshow.description.keyshadow": "When enabled, the key text will be rendered with a shadow",
+  "config.tiptapshow.option.cpstype": "CPS type",
+  "config.tiptapshow.description.cpstype": "When to render the CPS",
   "config.tiptapshow.option.backgroundcolor": "Background color",
   "config.tiptapshow.description.backgroundcolor": "The color of the square behind the key",
   "config.tiptapshow.option.pressedbackgroundcolor": "Clicked background color",
@@ -15,7 +22,21 @@
   "config.tiptapshow.description.keycolor": "The color of the key",
   "config.tiptapshow.option.pressedkeycolor": "Pressed key color",
   "config.tiptapshow.description.pressedkeycolor": "The color of the key when it's pressed",
+  "config.tiptapshow.option.showmovement": "Show Movement",
+  "config.tiptapshow.description.showmovement": "Whether to show the movement keys",
+  "config.tiptapshow.option.showjump": "Show Jump",
+  "config.tiptapshow.description.showjump": "Whether to show the jump key",
+  "config.tiptapshow.option.showclick": "Show Click",
+  "config.tiptapshow.description.showclick": "Whether to render the attack and use buttons",
+  "config.tiptapshow.option.horizontalslider": "Horizontal Display",
+  "config.tiptapshow.description.horizontalslider": "The horizontal position to display the overlay at",
+  "config.tiptapshow.option.verticalslider": "Vertical Display",
+  "config.tiptapshow.description.verticalslider": "The vertical position to display the overlay at",
+
   "text.tiptapshow.lmb": "LMB",
   "text.tiptapshow.rmb": "RMB",
-  "text.tiptapshow.cps": " CPS"
+  "text.tiptapshow.cps": "CPS",
+  "text.tiptapshow.cpstype.always": "Always",
+  "text.tiptapshow.cpstype.onclick": "On click",
+  "text.tiptapshow.cpstype.never": " Never"
 }

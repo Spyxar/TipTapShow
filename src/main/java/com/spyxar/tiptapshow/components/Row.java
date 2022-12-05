@@ -8,12 +8,30 @@ public class Row
     private static final int SEPARATOR_SIZE = 1;
 
     private final RenderableButton[] buttons;
-    private final int columnCount;
 
     private final int x;
-    private final int y;
+    private int y;
+
+    public void setY(int y)
+    {
+        this.y = y;
+        for (RenderableButton button : buttons)
+        {
+            if (button == null)
+            {
+                continue;
+            }
+            button.y = y;
+        }
+    }
+
     private final int width;
-    public final int height;
+    public int height;
+
+    public int getHeight()
+    {
+        return height;
+    }
 
     public Row(int x, int y, int width, int height, KeyBinding... keyBindings)
     {
@@ -22,12 +40,10 @@ public class Row
         this.width = width;
         this.height = height;
         buttons = createRenderableButtonsForKeyBindings(keyBindings);
-        columnCount = buttons.length;
     }
 
     public RenderableButton[] createRenderableButtonsForKeyBindings(KeyBinding[] keyBindings)
     {
-        //        STANDARD_SIDE_OFFSET + 1 * BOX_SIZE + 1, 50, BOX_SIZE, BOX_SIZE,
         RenderableButton[] renderableButtons = new RenderableButton[keyBindings.length];
         int amountOfButtons = keyBindings.length;
         int amountOfSeparators = amountOfButtons - 1;
@@ -45,7 +61,6 @@ public class Row
 
             renderableButtons[i] = new RenderableButton(buttonX, buttonY, buttonWidth, buttonHeight, keyBinding);
         }
-
         return renderableButtons;
     }
 

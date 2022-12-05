@@ -30,6 +30,10 @@ dependencies {
 	modApi("me.shedaniel.cloth:cloth-config-fabric:8.2.88") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
+
+	//Toml
+	modImplementation("com.moandjiezana.toml:toml4j:${project.toml4j_version}")
+	include "com.moandjiezana.toml:toml4j:${project.toml4j_version}"
 }
 
 processResources {

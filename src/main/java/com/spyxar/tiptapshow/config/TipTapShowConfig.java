@@ -10,15 +10,27 @@ import java.io.IOException;
 
 public final class TipTapShowConfig
 {
+    public enum CpsType
+    {
+        ALWAYS,
+        ON_CLICK,
+        NEVER
+    }
+
     private transient File file;
 
-    public boolean renderInGui = true;
-    public boolean countClicksInGui = false;
-    public boolean keyShadow = false;
     public int backgroundColor = 0x373d47bf;
     public int pressedBackgroundColor = 0x373d4747;
     public int keyColor = 16777215;
     public int pressedKeyColor = 0;
+    public boolean renderInGui = true;
+    public boolean keyShadow = false;
+    public boolean showMovement = true;
+    public boolean showClick = true;
+    public boolean showJump = true;
+    public CpsType cpsType = CpsType.ALWAYS;
+    public int horizontalSlider = 0;
+    public int verticalSlider = 0;
 
     private TipTapShowConfig() {}
 
@@ -31,8 +43,8 @@ public final class TipTapShowConfig
         TipTapShowConfig config;
         if (file.exists())
         {
-            Toml configTOML = new Toml().read(file);
-            config = configTOML.to(TipTapShowConfig.class);
+            Toml configToml = new Toml().read(file);
+            config = configToml.to(TipTapShowConfig.class);
             config.file = file;
         }
         else

@@ -7,11 +7,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
 
+import java.util.ArrayList;
+
 public class KeystrokeOverlay implements HudRenderCallback
 {
-    private static final int STANDARD_SIDE_OFFSET = 25;
-    private static final int STANDARD_TOP_OFFSET = 25;
-    public static final int BOX_SIZE = 25;
     public static final int ROW_SEPARATOR_SIZE = 1;
     public static final int ROW_WIDTH = 77;
     public static final int ROW_HEIGHT_NORMAL = 25;
@@ -36,21 +35,41 @@ public class KeystrokeOverlay implements HudRenderCallback
         {
             return;
         }
-        //ToDo: make use of dynamic display values from the config
-        // We probably will not have to use client.getWindow().getScaledWidth()/getScaledWidth()
-        // because people will just be able to change the display to their liking and depending on their GUI scale/fullscreen
-        // However we may need to do some more math for the text to still be in the middle with a different GUI size, needs testing
 
         matrixStack.push();
-        //ToDo: the height stuff is ugly
-        Row row1 = new Row(STANDARD_SIDE_OFFSET, STANDARD_TOP_OFFSET, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{null, client.options.forwardKey, null});
-        Row row2 = new Row(STANDARD_SIDE_OFFSET, STANDARD_TOP_OFFSET + row1.height + ROW_SEPARATOR_SIZE, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{client.options.leftKey, client.options.backKey, client.options.rightKey});
-        Row row3 = new Row(STANDARD_SIDE_OFFSET, STANDARD_TOP_OFFSET + row1.height + row2.height + ROW_SEPARATOR_SIZE * 2, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{client.options.attackKey, client.options.useKey});
-        Row row4 = new Row(STANDARD_SIDE_OFFSET, STANDARD_TOP_OFFSET + row1.height + row2.height + row3.height + ROW_SEPARATOR_SIZE * 3, ROW_WIDTH, ROW_HEIGHT_SMALL, new KeyBinding[]{client.options.jumpKey});
-        row1.render(matrixStack);
-        row2.render(matrixStack);
-        row3.render(matrixStack);
-        row4.render(matrixStack);
+        ArrayList<Row> unfinishedRows = new ArrayList<>();
+        int x = (int) (config.horizontalSlider / client.getWindow().getScaleFactor());
+        if (config.showMovement)
+        {
+            unfinishedRows.add(new Row(x, 0, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{null, client.options.forwardKey, null}));
+            unfinishedRows.add(new Row(x, 0, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{client.options.leftKey, client.options.backKey, client.options.rightKey}));
+        }
+        if (config.showClick)
+        {
+            unfinishedRows.add(new Row(x, 0, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{client.options.attackKey, client.options.useKey}));
+        }
+        if (config.showJump)
+        {
+            unfinishedRows.add(new Row(x, 0, ROW_WIDTH, ROW_HEIGHT_SMALL, new KeyBinding[]{client.options.jumpKey}));
+        }
+
+        ArrayList<Row> rows = new ArrayList<>();
+        //Height calculations
+        for (int i = 0; i < unfinishedRows.size(); i++)
+        {
+            Row row = unfinishedRows.get(i);
+            int height = (int) (config.verticalSlider / client.getWindow().getScaleFactor()) + ROW_SEPARATOR_SIZE * i;
+            for (int j = 0; j < i; j++)
+            {
+                height += rows.get(j).getHeight();
+            }
+            row.setY(height);
+            rows.add(row);
+        }
+        for (Row row : rows)
+        {
+            row.render(matrixStack);
+        }
         matrixStack.pop();
     }
 }
