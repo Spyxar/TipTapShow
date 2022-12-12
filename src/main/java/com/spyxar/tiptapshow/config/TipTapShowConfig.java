@@ -23,12 +23,14 @@ public final class TipTapShowConfig
     public int pressedBackgroundColor = 0x373d4747;
     public int keyColor = 16777215;
     public int pressedKeyColor = 0;
+    public boolean isEnabled = true;
     public boolean renderInGui = true;
     public boolean keyShadow = false;
     public boolean showMovement = true;
     public boolean showClick = true;
     public boolean showJump = true;
     public CpsType cpsType = CpsType.ALWAYS;
+    public double displayFactor = 1;
     public int horizontalSlider = 0;
     public int verticalSlider = 0;
 

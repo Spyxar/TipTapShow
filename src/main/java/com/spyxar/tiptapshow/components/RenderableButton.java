@@ -73,8 +73,7 @@ public class RenderableButton
 
     private static void renderJump(MatrixStack matrixStack, RenderableButton button, int textColor)
     {
-        MinecraftClient client = MinecraftClient.getInstance();
-        int letterWidth = client.textRenderer.getWidth("jumpkey");
+        int letterWidth = (int) (button.width * 0.6);
         float lineX = button.width / 2F + button.x;
         float lineY = button.height / 2F + button.y;
         Color color = new Color(textColor);

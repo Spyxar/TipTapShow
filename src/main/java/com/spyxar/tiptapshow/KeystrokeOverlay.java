@@ -20,8 +20,12 @@ public class KeystrokeOverlay implements HudRenderCallback
     @Override
     public void onHudRender(MatrixStack matrixStack, float tickDelta)
     {
-        MinecraftClient client = MinecraftClient.getInstance();
         TipTapShowConfig config = TipTapShowConfig.loadConfig();
+        if (!config.isEnabled)
+        {
+            return;
+        }
+        MinecraftClient client = MinecraftClient.getInstance();
         if (client == null)
         {
             TipTapShowMod.LOGGER.error("Client was null, making all renders fail.");
@@ -39,18 +43,25 @@ public class KeystrokeOverlay implements HudRenderCallback
         matrixStack.push();
         ArrayList<Row> unfinishedRows = new ArrayList<>();
         int x = (int) (config.horizontalSlider / client.getWindow().getScaleFactor());
+        int updatedRowWidth = (int) (ROW_WIDTH * config.displayFactor);
+        int updatedRowHeightNormal = (int) (ROW_HEIGHT_NORMAL * config.displayFactor);
+        int updatedRowHeightSmall = (int) (ROW_HEIGHT_SMALL * config.displayFactor);
+        while ((updatedRowWidth - 2) % 3 != 0 || (updatedRowWidth - 1) % 2 != 0)
+        {
+            updatedRowWidth++;
+        }
         if (config.showMovement)
         {
-            unfinishedRows.add(new Row(x, 0, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{null, client.options.forwardKey, null}));
-            unfinishedRows.add(new Row(x, 0, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{client.options.leftKey, client.options.backKey, client.options.rightKey}));
+            unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{null, client.options.forwardKey, null}));
+            unfinishedRows.add(new Row(x, 0,updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{client.options.leftKey, client.options.backKey, client.options.rightKey}));
         }
         if (config.showClick)
         {
-            unfinishedRows.add(new Row(x, 0, ROW_WIDTH, ROW_HEIGHT_NORMAL, new KeyBinding[]{client.options.attackKey, client.options.useKey}));
+            unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{client.options.attackKey, client.options.useKey}));
         }
         if (config.showJump)
         {
-            unfinishedRows.add(new Row(x, 0, ROW_WIDTH, ROW_HEIGHT_SMALL, new KeyBinding[]{client.options.jumpKey}));
+            unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightSmall, new KeyBinding[]{client.options.jumpKey}));
         }
 
         ArrayList<Row> rows = new ArrayList<>();

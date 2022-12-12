@@ -19,6 +19,10 @@ public class ClothConfigScreenFactory
                 .setSavingRunnable(TipTapShowMod.config::saveConfig);
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         ConfigCategory general = builder.getOrCreateCategory(Text.translatable("config.tiptapshow.categories.general"));
+        general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.isenabled"), TipTapShowMod.config.isEnabled)
+                .setDefaultValue(true)
+                .setTooltip(Text.translatable("config.tiptapshow.description.isenabled"))
+                .setSaveConsumer(newValue -> TipTapShowMod.config.isEnabled = newValue).build());
         SubCategoryBuilder colors = entryBuilder.startSubCategory(Text.translatable("config.tiptapshow.categories.colors")).setExpanded(true);
         colors.add(entryBuilder.startAlphaColorField(Text.translatable("config.tiptapshow.option.backgroundcolor"), TipTapShowMod.config.backgroundColor)
                 .setDefaultValue(0x373d47bf)
@@ -50,6 +54,10 @@ public class ClothConfigScreenFactory
                 .setEnumNameProvider(x -> Text.translatable("text.tiptapshow.cpstype." + x.name().toLowerCase().replace("_", "")))
                 .setTooltip(Text.translatable("config.tiptapshow.description.cpstype"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.cpsType = newValue).build());
+        display.add(entryBuilder.startDoubleField(Text.translatable("config.tiptapshow.option.displayfactor"), TipTapShowMod.config.displayFactor)
+                .setDefaultValue(1)
+                .setTooltip(Text.translatable("config.tiptapshow.description.displayfactor"))
+                .setSaveConsumer(newValue -> TipTapShowMod.config.displayFactor = newValue).build());
         display.add(entryBuilder.startIntSlider(Text.translatable("config.tiptapshow.option.horizontalslider"), TipTapShowMod.config.horizontalSlider, 0,
                         (int) MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledWidth())
                 .setDefaultValue(20)

@@ -6,6 +6,8 @@
   "config.tiptapshow.categories.display": "Display",
   "config.tiptapshow.categories.keydisplay": "Keys",
 
+  "config.tiptapshow.option.isenabled": "Enabled",
+  "config.tiptapshow.description.isenabled": "Enable or disable all functionality",
   "config.tiptapshow.option.renderingui": "Render in GUI",
   "config.tiptapshow.description.renderingui": "Whether or not to render the overlay while in a GUI",
   "config.tiptapshow.option.countclicksingui": "Count clicks in GUI",
@@ -28,6 +30,8 @@
   "config.tiptapshow.description.showjump": "Whether to show the jump key",
   "config.tiptapshow.option.showclick": "Show Click",
   "config.tiptapshow.description.showclick": "Whether to render the attack and use buttons",
+  "config.tiptapshow.option.displayfactor": "Display Factor",
+  "config.tiptapshow.description.displayfactor": "How big the overlay should be",
   "config.tiptapshow.option.horizontalslider": "Horizontal Display",
   "config.tiptapshow.description.horizontalslider": "The horizontal position to display the overlay at",
   "config.tiptapshow.option.verticalslider": "Vertical Display",
