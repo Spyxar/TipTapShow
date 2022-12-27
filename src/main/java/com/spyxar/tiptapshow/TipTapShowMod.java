@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 public class TipTapShowMod implements ModInitializer
 {
     //ToDo features:
-    // Rainbow color mode (textcolor, not background)
     // Allow the adding of custom keys - for this to work we will likely need to completely write our own config screens etc.
     //  because Cloth doesn't allow for adding an expandable list of keybinds like it does for things like strings
     public static final String MOD_ID = "tiptapshow";

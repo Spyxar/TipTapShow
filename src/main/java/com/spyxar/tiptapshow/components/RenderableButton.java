@@ -36,7 +36,19 @@ public class RenderableButton
     {
         boolean isPressed = key.isPressed();
         int fillColor = isPressed ? config.pressedBackgroundColor : config.backgroundColor;
-        int textColor = isPressed ? config.pressedKeyColor : config.keyColor;
+        int textColor;
+        if (config.rainbowMode)
+        {
+            textColor = getRainbowColor(this.x);
+        }
+        else if (isPressed)
+        {
+            textColor = config.pressedKeyColor;
+        }
+        else
+        {
+            textColor = config.keyColor;
+        }
 
         MinecraftClient client = MinecraftClient.getInstance();
         DrawableHelper.fill(matrixStack, x, y, x + width, y + height, fillColor);
@@ -124,5 +136,11 @@ public class RenderableButton
     private static boolean shouldRenderCps(int clicks)
     {
         return config.cpsType == TipTapShowConfig.CpsType.ALWAYS || (config.cpsType == TipTapShowConfig.CpsType.ON_CLICK && clicks != 0);
+    }
+
+    public int getRainbowColor(double offset)
+    {
+        float hue = (float) (System.currentTimeMillis() % 1000L / 1000.0) + (float) (this.width + offset / this.width * (config.rainbowOffset / 10.0));
+        return Color.HSBtoRGB(hue, 1.0f, 1.0f);
     }
 }

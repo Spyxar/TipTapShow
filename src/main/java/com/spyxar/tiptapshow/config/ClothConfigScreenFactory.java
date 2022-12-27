@@ -40,6 +40,14 @@ public class ClothConfigScreenFactory
                 .setDefaultValue(0)
                 .setTooltip(Text.translatable("config.tiptapshow.description.pressedkeycolor"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.pressedKeyColor = newValue).build());
+        colors.add(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.rainbowmode"), TipTapShowMod.config.rainbowMode)
+                .setDefaultValue(false)
+                .setTooltip(Text.translatable("config.tiptapshow.description.rainbowmode"))
+                .setSaveConsumer(newValue -> TipTapShowMod.config.rainbowMode = newValue).build());
+        colors.add(entryBuilder.startIntSlider(Text.translatable("config.tiptapshow.option.rainbowoffset"), TipTapShowMod.config.rainbowOffset, 1, 10)
+                .setDefaultValue(9)
+                .setTooltip(Text.translatable("config.tiptapshow.description.rainbowoffset"))
+                .setSaveConsumer(newValue -> TipTapShowMod.config.rainbowOffset = newValue).build());
         SubCategoryBuilder display = entryBuilder.startSubCategory(Text.translatable("config.tiptapshow.categories.display")).setExpanded(true);
         display.add(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.renderingui"), TipTapShowMod.config.renderInGui)
                 .setDefaultValue(true)

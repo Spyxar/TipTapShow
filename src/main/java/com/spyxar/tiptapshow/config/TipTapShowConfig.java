@@ -19,11 +19,13 @@ public final class TipTapShowConfig
 
     private transient File file;
 
+    public boolean isEnabled = true;
     public int backgroundColor = 0x373d47bf;
     public int pressedBackgroundColor = 0x373d4747;
     public int keyColor = 16777215;
     public int pressedKeyColor = 0;
-    public boolean isEnabled = true;
+    public boolean rainbowMode = false;
+    public int rainbowOffset = 9;
     public boolean renderInGui = true;
     public boolean keyShadow = false;
     public boolean showMovement = true;
