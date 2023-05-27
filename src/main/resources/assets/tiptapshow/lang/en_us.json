@@ -9,13 +9,13 @@
   "config.tiptapshow.option.isenabled": "Enabled",
   "config.tiptapshow.description.isenabled": "Enable or disable all functionality",
   "config.tiptapshow.option.backgroundcolor": "Background color",
-  "config.tiptapshow.description.backgroundcolor": "The color of the square behind the key",
+  "config.tiptapshow.description.backgroundcolor": "The color of the square behind the key (ARGB)",
   "config.tiptapshow.option.pressedbackgroundcolor": "Clicked background color",
-  "config.tiptapshow.description.pressedbackgroundcolor": "The color of the square behind the key when the key is pressed",
+  "config.tiptapshow.description.pressedbackgroundcolor": "The color of the square behind the key when the key is pressed (ARGB)",
   "config.tiptapshow.option.keycolor": "Key color",
-  "config.tiptapshow.description.keycolor": "The color of the key",
+  "config.tiptapshow.description.keycolor": "The color of the key (RGB)",
   "config.tiptapshow.option.pressedkeycolor": "Pressed key color",
-  "config.tiptapshow.description.pressedkeycolor": "The color of the key when it's pressed",
+  "config.tiptapshow.description.pressedkeycolor": "The color of the key when it's pressed (RGB)",
   "config.tiptapshow.option.rainbowmode": "Rainbow mode",
   "config.tiptapshow.description.rainbowmode": "Enable RAINBOWZ!!1!",
   "config.tiptapshow.option.rainbowoffset": "Rainbow offset",
@@ -44,5 +44,8 @@
   "text.tiptapshow.cps": "CPS",
   "text.tiptapshow.cpstype.always": "Always",
   "text.tiptapshow.cpstype.onclick": "On click",
-  "text.tiptapshow.cpstype.never": " Never"
+  "text.tiptapshow.cpstype.never": " Never",
+
+  "key.tiptapshow.toggleoverlay": "Toggle Overlay",
+  "category.tiptapshow.main": "TipTapShow"
 }
