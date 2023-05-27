@@ -46,6 +46,7 @@
   "text.tiptapshow.cpstype.onclick": "On click",
   "text.tiptapshow.cpstype.never": " Never",
 
-  "key.tiptapshow.toggleoverlay": "Toggle Overlay",
-  "category.tiptapshow.main": "TipTapShow"
+  "category.tiptapshow.main": "TipTapShow",
+  "key.tiptapshow.openconfig": "Open Config",
+  "key.tiptapshow.toggleoverlay": "Toggle Overlay"
 }

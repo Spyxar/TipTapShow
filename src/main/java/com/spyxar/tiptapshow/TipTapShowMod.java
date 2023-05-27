@@ -31,12 +31,17 @@ public class TipTapShowMod implements ModInitializer
 
         HudRenderCallback.EVENT.register(new KeystrokeOverlay());
 
+        KeyBinding openConfigKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openconfig", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.tiptapshow.main"));
         KeyBinding toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.toggleoverlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.tiptapshow.main"));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (toggleKeyBinding.isPressed())
+            if (toggleKeyBinding.wasPressed())
             {
                 config.isEnabled = !config.isEnabled;
                 config.saveConfig();
+            }
+            if (openConfigKeyBinding.wasPressed())
+            {
+                client.setScreen(new ModMenuIntegration().getModConfigScreenFactory().create(null));
             }
         });
     }
