@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.apache.logging.log4j.LogManager;
@@ -41,7 +42,14 @@ public class TipTapShowMod implements ModInitializer
             }
             if (openConfigKeyBinding.wasPressed())
             {
-                client.setScreen(new ModMenuIntegration().getModConfigScreenFactory().create(null));
+                if (FabricLoader.getInstance().isModLoaded("modmenu"))
+                {
+                    client.setScreen(new ModMenuIntegration().getModConfigScreenFactory().create(null));
+                }
+                else
+                {
+                    LOGGER.warn("Open config keybind was pressed, but ModMenu was not found.");
+                }
             }
         });
     }

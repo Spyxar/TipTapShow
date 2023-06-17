@@ -27,9 +27,8 @@
     "tiptapshow.mixins.json"
   ],
   "requires": {
-    "fabricloader": ">=0.4.0",
-    "fabric": "*",
-    "minecraft": "~1.19",
+    "fabricloader": ">=0.12.0",
+    "minecraft": ">=1.19-",
     "java": ">=17"
   },
   "suggests": {

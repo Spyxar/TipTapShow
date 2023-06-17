@@ -4,8 +4,8 @@ import com.spyxar.tiptapshow.components.Row;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class KeystrokeOverlay implements HudRenderCallback
 
     @SuppressWarnings("RedundantArrayCreation")
     @Override
-    public void onHudRender(MatrixStack matrixStack, float tickDelta)
+    public void onHudRender(DrawContext context, float tickDelta)
     {
         TipTapShowConfig config = TipTapShowConfig.loadConfig();
         if (!config.isEnabled)
@@ -40,7 +40,6 @@ public class KeystrokeOverlay implements HudRenderCallback
             return;
         }
 
-        matrixStack.push();
         ArrayList<Row> unfinishedRows = new ArrayList<>();
         int x = (int) (config.horizontalSlider / client.getWindow().getScaleFactor());
         int updatedRowWidth = (int) (ROW_WIDTH * config.displayFactor);
@@ -79,8 +78,7 @@ public class KeystrokeOverlay implements HudRenderCallback
         }
         for (Row row : rows)
         {
-            row.render(matrixStack);
+            row.render(context);
         }
-        matrixStack.pop();
     }
 }

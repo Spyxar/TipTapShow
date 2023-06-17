@@ -1,7 +1,7 @@
 package com.spyxar.tiptapshow.components;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class Row
 {
@@ -64,7 +64,7 @@ public class Row
         return renderableButtons;
     }
 
-    public void render(MatrixStack matrixStack)
+    public void render(DrawContext context)
     {
         for (RenderableButton button : buttons)
         {
@@ -72,7 +72,7 @@ public class Row
             {
                 continue;
             }
-            button.render(matrixStack);
+            button.render(context);
         }
     }
 }

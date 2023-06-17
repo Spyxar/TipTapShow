@@ -3,9 +3,9 @@ package com.spyxar.tiptapshow.components;
 import com.spyxar.tiptapshow.ClickCounter;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
 
@@ -32,7 +32,7 @@ public class RenderableButton
         this.displayText = getDisplayText(key);
     }
 
-    public void render(MatrixStack matrixStack)
+    public void render(DrawContext context)
     {
         boolean isPressed = key.isPressed();
         int fillColor = isPressed ? config.pressedBackgroundColor : config.backgroundColor;
@@ -51,11 +51,11 @@ public class RenderableButton
         }
 
         MinecraftClient client = MinecraftClient.getInstance();
-        DrawableHelper.fill(matrixStack, x, y, x + width, y + height, fillColor);
+        context.fill(RenderLayer.getGui(), x, y, x + width, y + height, fillColor);
 
         if (displayText.equals("{jumpKey}"))
         {
-            renderJump(matrixStack, this, textColor);
+            renderJump(context, this, textColor);
             return;
         }
 
@@ -71,8 +71,8 @@ public class RenderableButton
             float secondLineX = width / 2F + x - client.textRenderer.getWidth(secondLine) / 2F;
             float lineY = height / 2F + y - client.textRenderer.fontHeight * 2 / 2F;
 
-            renderText(matrixStack, firstLine, firstLineX, lineY, textColor);
-            renderText(matrixStack, secondLine, secondLineX, lineY + client.textRenderer.fontHeight, textColor);
+            renderText(context, firstLine, firstLineX, lineY, textColor);
+            renderText(context, secondLine, secondLineX, lineY + client.textRenderer.fontHeight, textColor);
             return;
         }
 
@@ -80,25 +80,25 @@ public class RenderableButton
         float lineX = width / 2F + x - letterWidth / 2F;
         float lineY = height / 2F + y - client.textRenderer.fontHeight / 2F;
 
-        renderText(matrixStack, displayText, lineX, lineY, textColor);
+        renderText(context, displayText, lineX, lineY, textColor);
     }
 
-    private static void renderJump(MatrixStack matrixStack, RenderableButton button, int textColor)
+    private static void renderJump(DrawContext context, RenderableButton button, int textColor)
     {
         int letterWidth = (int) (button.width * 0.6);
         float lineX = button.width / 2F + button.x;
         float lineY = button.height / 2F + button.y;
         Color color = new Color(textColor);
-        DrawableHelper.fill(matrixStack, Math.round(lineX - letterWidth / 2F), (int) lineY - 1, Math.round(lineX + letterWidth / 2F), (int) lineY, ColorHelper.Argb.getArgb(255, color.getRed(), color.getGreen(), color.getBlue()));
+        context.fill(Math.round(lineX - letterWidth / 2F), (int) lineY - 1, Math.round(lineX + letterWidth / 2F), (int) lineY, ColorHelper.Argb.getArgb(255, color.getRed(), color.getGreen(), color.getBlue()));
     }
 
-    private static void renderText(MatrixStack matrixStack, String text, float lineX, float lineY, int textColor)
+    private static void renderText(DrawContext context, String text, float lineX, float lineY, int textColor)
     {
         if (config.keyShadow)
         {
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(matrixStack, text, lineX, lineY, textColor);
+            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, Text.of(text), (int)lineX, (int)lineY, textColor);
         }
-        MinecraftClient.getInstance().textRenderer.draw(matrixStack, text, lineX, lineY, textColor);
+        context.drawText(MinecraftClient.getInstance().textRenderer, text, (int)lineX, (int)lineY, textColor, false);
     }
 
     private static String getDisplayText(KeyBinding key)
