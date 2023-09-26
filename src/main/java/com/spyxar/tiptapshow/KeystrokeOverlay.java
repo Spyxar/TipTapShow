@@ -1,6 +1,7 @@
 package com.spyxar.tiptapshow;
 
 import com.spyxar.tiptapshow.components.Row;
+import com.spyxar.tiptapshow.config.PositionGui;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
@@ -31,7 +32,11 @@ public class KeystrokeOverlay implements HudRenderCallback
             TipTapShowMod.LOGGER.error("Client was null, making all renders fail.");
             return;
         }
-        if (client.options.debugEnabled)
+        if (client.getDebugHud().shouldShowDebugHud())
+        {
+            return;
+        }
+        if (client.currentScreen instanceof PositionGui)
         {
             return;
         }
@@ -52,7 +57,7 @@ public class KeystrokeOverlay implements HudRenderCallback
         if (config.showMovement)
         {
             unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{null, client.options.forwardKey, null}));
-            unfinishedRows.add(new Row(x, 0,updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{client.options.leftKey, client.options.backKey, client.options.rightKey}));
+            unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{client.options.leftKey, client.options.backKey, client.options.rightKey}));
         }
         if (config.showClick)
         {

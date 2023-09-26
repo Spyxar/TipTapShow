@@ -7,8 +7,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.ColorHelper;
-
 import java.awt.*;
 
 import static com.spyxar.tiptapshow.TipTapShowMod.config;
@@ -88,17 +86,16 @@ public class RenderableButton
         int letterWidth = (int) (button.width * 0.6);
         float lineX = button.width / 2F + button.x;
         float lineY = button.height / 2F + button.y;
-        Color color = new Color(textColor);
-        context.fill(Math.round(lineX - letterWidth / 2F), (int) lineY - 1, Math.round(lineX + letterWidth / 2F), (int) lineY, ColorHelper.Argb.getArgb(255, color.getRed(), color.getGreen(), color.getBlue()));
+        context.fill(Math.round(lineX - letterWidth / 2F), (int) lineY - 1, Math.round(lineX + letterWidth / 2F), (int) lineY, textColor);
     }
 
     private static void renderText(DrawContext context, String text, float lineX, float lineY, int textColor)
     {
         if (config.keyShadow)
         {
-            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, Text.of(text), (int)lineX, (int)lineY, textColor);
+            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, Text.of(text), (int) lineX, (int) lineY, textColor);
         }
-        context.drawText(MinecraftClient.getInstance().textRenderer, text, (int)lineX, (int)lineY, textColor, false);
+        context.drawText(MinecraftClient.getInstance().textRenderer, text, (int) lineX, (int) lineY, textColor, false);
     }
 
     private static String getDisplayText(KeyBinding key)

@@ -24,6 +24,10 @@ public class Row
             button.y = y;
         }
     }
+    public int getY()
+    {
+        return y;
+    }
 
     private final int width;
     public int height;

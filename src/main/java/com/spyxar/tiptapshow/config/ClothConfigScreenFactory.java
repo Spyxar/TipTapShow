@@ -32,12 +32,12 @@ public class ClothConfigScreenFactory
                 .setDefaultValue(0x373d4747)
                 .setTooltip(Text.translatable("config.tiptapshow.description.pressedbackgroundcolor"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.pressedBackgroundColor = newValue).build());
-        colors.add(entryBuilder.startColorField(Text.translatable("config.tiptapshow.option.keycolor"), TipTapShowMod.config.keyColor)
-                .setDefaultValue(16777215)
+        colors.add(entryBuilder.startAlphaColorField(Text.translatable("config.tiptapshow.option.keycolor"), TipTapShowMod.config.keyColor)
+                .setDefaultValue(0xffffffff)
                 .setTooltip(Text.translatable("config.tiptapshow.description.keycolor"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.keyColor = newValue).build());
-        colors.add(entryBuilder.startColorField(Text.translatable("config.tiptapshow.option.pressedkeycolor"), TipTapShowMod.config.pressedKeyColor)
-                .setDefaultValue(0)
+        colors.add(entryBuilder.startAlphaColorField(Text.translatable("config.tiptapshow.option.pressedkeycolor"), TipTapShowMod.config.pressedKeyColor)
+                .setDefaultValue(0xff000000)
                 .setTooltip(Text.translatable("config.tiptapshow.description.pressedkeycolor"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.pressedKeyColor = newValue).build());
         colors.add(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.rainbowmode"), TipTapShowMod.config.rainbowMode)

@@ -1,5 +1,6 @@
 package com.spyxar.tiptapshow;
 
+import com.spyxar.tiptapshow.config.PositionGui;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -8,6 +9,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -22,7 +24,7 @@ public class TipTapShowMod implements ModInitializer
     public static TipTapShowMod instance = null;
     public static TipTapShowConfig config = null;
 
-    static Logger LOGGER = LogManager.getLogger("TipTapShow");
+    public static Logger LOGGER = LogManager.getLogger("TipTapShow");
 
     @Override
     public void onInitialize()
@@ -33,6 +35,7 @@ public class TipTapShowMod implements ModInitializer
         HudRenderCallback.EVENT.register(new KeystrokeOverlay());
 
         KeyBinding openConfigKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openconfig", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.tiptapshow.main"));
+        KeyBinding positionKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openposition", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.tiptapshow.main"));
         KeyBinding toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.toggleoverlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.tiptapshow.main"));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (toggleKeyBinding.wasPressed())
@@ -49,6 +52,17 @@ public class TipTapShowMod implements ModInitializer
                 else
                 {
                     LOGGER.warn("Open config keybind was pressed, but ModMenu was not found.");
+                }
+            }
+            if (positionKeyBinding.wasPressed())
+            {
+                if (FabricLoader.getInstance().isModLoaded("cloth-config2"))
+                {
+                    client.setScreen((new PositionGui(Text.literal("Positioning"), null)));
+                }
+                else
+                {
+                    LOGGER.warn("Position keybind was pressed, but ClothConfig was not found.");
                 }
             }
         });
