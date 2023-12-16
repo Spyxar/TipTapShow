@@ -1,24 +1,40 @@
 package com.spyxar.tiptapshow.components;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.spyxar.tiptapshow.ClickCounter;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.*;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.spyxar.tiptapshow.TipTapShowMod.config;
 
 public class RenderableButton
 {
+    private static final int ROUNDED_CORNER_RADIUS = 5;
+    private static final int ROUNDED_CORNER_SAMPLES = 40;
+
     private final int x;
     public int y;
     private final int width;
     private final int height;
+
     private final KeyBinding key;
     private final String displayText;
+
+    private static final Map<String, Integer> cachedRainbowColors = new HashMap<>();
+
+    private static long lastUsedRainbowMillis = 0;
+    private static int rainbowFramesSkipped = 0;
+
+    private static final float[][] cornerCache = new float[4][3];
 
     public RenderableButton(int x, int y, int width, int height, KeyBinding key)
     {
@@ -37,6 +53,7 @@ public class RenderableButton
         int textColor;
         if (config.rainbowMode)
         {
+            maybeClearRainbowCache();
             textColor = getRainbowColor(this.x);
         }
         else if (isPressed)
@@ -48,8 +65,14 @@ public class RenderableButton
             textColor = config.keyColor;
         }
 
-        MinecraftClient client = MinecraftClient.getInstance();
-        context.fill(RenderLayer.getGui(), x, y, x + width, y + height, fillColor);
+        if (config.roundedBackground)
+        {
+            renderRoundedRectangle(context.getMatrices(), fillColor, x, y, width, height, ROUNDED_CORNER_RADIUS, ROUNDED_CORNER_SAMPLES);
+        }
+        else
+        {
+            context.fill(RenderLayer.getGuiOverlay(), x, y, x + width, y + height, fillColor);
+        }
 
         if (displayText.equals("{jumpKey}"))
         {
@@ -57,9 +80,13 @@ public class RenderableButton
             return;
         }
 
+        MinecraftClient client = MinecraftClient.getInstance();
+
         //ToDo:
         // When in GUI scale 1, the RMB + CPS doesn't render correctly, not sure what causes it or how to fix
         // When only rendering the first line (CpsType NEVER/ON_CLICK) it's fine
+        //ToDo:
+        // Text does not scale (properly) when using a displayFactor other than 1 (#7)
         if (displayText.contains("\n"))
         {
             String[] splitText = displayText.split("\n", 2);
@@ -94,6 +121,7 @@ public class RenderableButton
         if (config.keyShadow)
         {
             context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, Text.of(text), (int) lineX, (int) lineY, textColor);
+            return;
         }
         context.drawText(MinecraftClient.getInstance().textRenderer, text, (int) lineX, (int) lineY, textColor, false);
     }
@@ -137,7 +165,79 @@ public class RenderableButton
 
     public int getRainbowColor(double offset)
     {
-        float hue = (float) (System.currentTimeMillis() % 1000L / 1000.0) + (float) (this.width + offset / this.width * (config.rainbowOffset / 10.0));
-        return Color.HSBtoRGB(hue, 1.0f, 1.0f);
+        if (cachedRainbowColors.containsKey(this.displayText))
+        {
+            return cachedRainbowColors.get(this.displayText);
+        }
+
+        float hue = (float) (lastUsedRainbowMillis % 1000L / 1000.0) + (float) (this.width + offset / this.width * (config.rainbowOffset / 10.0));
+        int newColor = Color.HSBtoRGB(hue, 1.0f, 1.0f);
+        cachedRainbowColors.put(this.displayText, newColor);
+        return newColor;
+    }
+
+    public void maybeClearRainbowCache()
+    {
+        //ToDo: this 7 should be dynamic, based on amount of keys displayed
+        int framesToSkip = (5 + 1 - config.rainbowSpeed) * 7;
+        if (framesToSkip <= rainbowFramesSkipped)
+        {
+            cachedRainbowColors.clear();
+            lastUsedRainbowMillis += 1000 / Math.max(MinecraftClient.getInstance().getCurrentFps(), 60);
+            rainbowFramesSkipped = 0;
+        }
+        rainbowFramesSkipped++;
+    }
+
+    private static void renderRoundedRectangle(MatrixStack stack, int color, float x, float y, float width, float height, float radius, float samples)
+    {
+        renderRoundedRectangle(stack, x, y, width, height, radius, radius, radius, radius, color, samples);
+    }
+
+    private static void renderRoundedRectangle(MatrixStack matrices, float x, float y, float width, float height, float radiusTL, float radiusTR, float radiusBL, float radiusBR, int color, float samples)
+    {
+        RenderSystem.disableCull();
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+
+        bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+
+        float endX = x + width;
+        float endY = y + height;
+
+        fillCornerCache(radiusBR, endX - radiusBR, endY - radiusBR, 0);
+        fillCornerCache(radiusTR, endX - radiusTR, y + radiusTR, 1);
+        fillCornerCache(radiusTL, x + radiusTL, y + radiusTL, 2);
+        fillCornerCache(radiusBL, x + radiusBL, endY - radiusBL, 3);
+
+        for (int i = 0; i < 4; i++)
+        {
+            float[] current = cornerCache[i];
+            float radius = current[0];
+            for (float angle = i * 90; angle <= (i + 1) * 90; angle += 90 / samples)
+            {
+                float radianAngle = (float) Math.toRadians(angle);
+                float sin = (float) (Math.sin(radianAngle) * radius);
+                float cos = (float) (Math.cos(radianAngle) * radius);
+
+                bufferBuilder.vertex(matrices.peek().getPositionMatrix(), current[1] + sin, current[2] + cos, 0).color(color).next();
+            }
+        }
+
+        tessellator.draw();
+
+        RenderSystem.enableCull();
+        RenderSystem.disableBlend();
+    }
+
+    private static void fillCornerCache(float a, float b, float c, int i)
+    {
+        cornerCache[i][0] = a;
+        cornerCache[i][1] = b;
+        cornerCache[i][2] = c;
     }
 }

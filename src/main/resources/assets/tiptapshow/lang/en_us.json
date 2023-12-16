@@ -17,9 +17,13 @@
   "config.tiptapshow.option.pressedkeycolor": "Pressed key color",
   "config.tiptapshow.description.pressedkeycolor": "The color of the key when it's pressed (ARGB)",
   "config.tiptapshow.option.rainbowmode": "Rainbow mode",
-  "config.tiptapshow.description.rainbowmode": "Enable RAINBOWZ!!1!",
+  "config.tiptapshow.description.rainbowmode": "Enable RAINBOWZ!!1! Use with CAUTION!",
   "config.tiptapshow.option.rainbowoffset": "Rainbow offset",
   "config.tiptapshow.description.rainbowoffset": "How much to offset the rainbow colors by",
+  "config.tiptapshow.option.rainbowspeed": "Rainbow speed",
+  "config.tiptapshow.description.rainbowspeed": "The speed of rainbow mode",
+  "config.tiptapshow.option.roundedbackground": "Rounded Backgrounds",
+  "config.tiptapshow.description.roundedbackground": "When enabled, the key backgrounds will have rounded corners",
   "config.tiptapshow.option.renderingui": "Render in GUI",
   "config.tiptapshow.description.renderingui": "Whether or not to render the overlay while in a GUI",
   "config.tiptapshow.option.keyshadow": "Key shadow",
@@ -49,5 +53,8 @@
   "category.tiptapshow.main": "TipTapShow",
   "key.tiptapshow.openconfig": "Open Config",
   "key.tiptapshow.toggleoverlay": "Toggle Overlay",
-  "key.tiptapshow.openposition": "Change Position"
+  "key.tiptapshow.openposition": "Change Position",
+
+  "toast.tiptapshow.openconfigfailed": "TipTapShow: Failed to open config",
+  "toast.tiptapshow.clothconfigmissing": "ClothConfig was not found"
 }

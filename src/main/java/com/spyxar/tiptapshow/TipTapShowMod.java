@@ -1,5 +1,6 @@
 package com.spyxar.tiptapshow;
 
+import com.spyxar.tiptapshow.config.ClothConfigScreenFactory;
 import com.spyxar.tiptapshow.config.PositionGui;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.fabricmc.api.ModInitializer;
@@ -7,7 +8,9 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.apache.logging.log4j.LogManager;
@@ -45,25 +48,19 @@ public class TipTapShowMod implements ModInitializer
             }
             if (openConfigKeyBinding.wasPressed())
             {
-                if (FabricLoader.getInstance().isModLoaded("modmenu"))
+                if (FabricLoader.getInstance().isModLoaded("cloth-config2"))
                 {
-                    client.setScreen(new ModMenuIntegration().getModConfigScreenFactory().create(null));
+                    MinecraftClient.getInstance().setScreen(ClothConfigScreenFactory.makeConfig(null));
                 }
                 else
                 {
-                    LOGGER.warn("Open config keybind was pressed, but ModMenu was not found.");
+                    SystemToast.add(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.PERIODIC_NOTIFICATION, Text.translatable("toast.tiptapshow.openconfigfailed"), Text.translatable("toast.tiptapshow.clothconfigmissing"));
+                    LOGGER.warn("Open config keybind was pressed, but ClothConfig was not found.");
                 }
             }
             if (positionKeyBinding.wasPressed())
             {
-                if (FabricLoader.getInstance().isModLoaded("cloth-config2"))
-                {
-                    client.setScreen((new PositionGui(Text.literal("Positioning"), null)));
-                }
-                else
-                {
-                    LOGGER.warn("Position keybind was pressed, but ClothConfig was not found.");
-                }
+                client.setScreen((new PositionGui(Text.literal("Positioning"), null)));
             }
         });
     }

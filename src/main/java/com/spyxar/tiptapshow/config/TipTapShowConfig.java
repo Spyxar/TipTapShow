@@ -26,7 +26,9 @@ public final class TipTapShowConfig
     public int pressedKeyColor = 0;
     public boolean rainbowMode = false;
     public int rainbowOffset = 9;
+    public int rainbowSpeed = 5;
     public boolean renderInGui = true;
+    public boolean roundedBackground = false;
     public boolean keyShadow = false;
     public boolean showMovement = true;
     public boolean showClick = true;

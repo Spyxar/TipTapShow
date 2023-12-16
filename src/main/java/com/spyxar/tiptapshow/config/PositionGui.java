@@ -7,7 +7,6 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.*;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.Window;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -23,13 +22,13 @@ public class PositionGui extends Screen
     public static final int ROW_HEIGHT_NORMAL = 25;
     public static final int ROW_HEIGHT_SMALL = 20;
 
-    PositionWidget widget;
+    private PositionWidget widget;
+
     private boolean dragging;
+    private int dragX;
+    private int dragY;
 
-    int dragX;
-    int dragY;
-
-    Screen parent;
+    private final Screen parent;
 
     public PositionGui(Text title, Screen previous)
     {
@@ -45,11 +44,10 @@ public class PositionGui extends Screen
         widget = new PositionWidget((int) (config.horizontalSlider / client.getWindow().getScaleFactor()), (int) (config.verticalSlider / client.getWindow().getScaleFactor()), 200, 50);
         this.addSelectableChild(widget);
 
-        this.addDrawableChild(
-                ButtonWidget.builder(ScreenTexts.DONE, (button) -> close())
-                        .position(this.width / 2 - 100, this.height - 27)
-                        .size(200, 20)
-                        .build());
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> close())
+                .position(this.width / 2 - 100, this.height - 27)
+                .size(200, 20)
+                .build());
     }
 
     @Override
@@ -161,16 +159,16 @@ public class PositionGui extends Screen
             }
             if (config.showMovement)
             {
-                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{null, client.options.forwardKey, null}));
-                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{client.options.leftKey, client.options.backKey, client.options.rightKey}));
+                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, null, client.options.forwardKey, null));
+                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, client.options.leftKey, client.options.backKey, client.options.rightKey));
             }
             if (config.showClick)
             {
-                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{client.options.attackKey, client.options.useKey}));
+                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, client.options.attackKey, client.options.useKey));
             }
             if (config.showJump)
             {
-                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightSmall, new KeyBinding[]{client.options.jumpKey}));
+                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightSmall, client.options.jumpKey));
             }
 
             ArrayList<Row> rows = new ArrayList<>();
@@ -308,21 +306,15 @@ public class PositionGui extends Screen
         }
 
         @Override
-        public void forEachChild(Consumer<ClickableWidget> consumer)
-        {
-
-        }
-
-        @Override
         public int getNavigationOrder()
         {
             return Element.super.getNavigationOrder();
         }
 
         @Override
-        public void appendNarrations(NarrationMessageBuilder builder)
-        {
+        public void forEachChild(Consumer<ClickableWidget> consumer) {}
 
-        }
+        @Override
+        public void appendNarrations(NarrationMessageBuilder builder) {}
     }
 }

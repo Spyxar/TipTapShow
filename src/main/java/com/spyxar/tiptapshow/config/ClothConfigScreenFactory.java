@@ -48,7 +48,15 @@ public class ClothConfigScreenFactory
                 .setDefaultValue(9)
                 .setTooltip(Text.translatable("config.tiptapshow.description.rainbowoffset"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.rainbowOffset = newValue).build());
+        colors.add(entryBuilder.startIntSlider(Text.translatable("config.tiptapshow.option.rainbowspeed"), TipTapShowMod.config.rainbowSpeed, 1, 5)
+                .setDefaultValue(4)
+                .setTooltip(Text.translatable("config.tiptapshow.description.rainbowspeed"))
+                .setSaveConsumer(newValue -> TipTapShowMod.config.rainbowSpeed = newValue).build());
         SubCategoryBuilder display = entryBuilder.startSubCategory(Text.translatable("config.tiptapshow.categories.display")).setExpanded(true);
+        display.add(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.roundedbackground"), TipTapShowMod.config.roundedBackground)
+                .setDefaultValue(false)
+                .setTooltip(Text.translatable("config.tiptapshow.description.roundedbackground"))
+                .setSaveConsumer(newValue -> TipTapShowMod.config.roundedBackground = newValue).build());
         display.add(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.renderingui"), TipTapShowMod.config.renderInGui)
                 .setDefaultValue(true)
                 .setTooltip(Text.translatable("config.tiptapshow.description.renderingui"))

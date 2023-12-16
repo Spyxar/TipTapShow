@@ -12,6 +12,11 @@ public class Row
     private final int x;
     private int y;
 
+    public int getY()
+    {
+        return y;
+    }
+
     public void setY(int y)
     {
         this.y = y;
@@ -23,10 +28,6 @@ public class Row
             }
             button.y = y;
         }
-    }
-    public int getY()
-    {
-        return y;
     }
 
     private final int width;
