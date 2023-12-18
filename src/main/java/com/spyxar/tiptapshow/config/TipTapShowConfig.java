@@ -22,21 +22,21 @@ public final class TipTapShowConfig
     public boolean isEnabled = true;
     public int backgroundColor = 0x373d47bf;
     public int pressedBackgroundColor = 0x373d4747;
-    public int keyColor = 16777215;
-    public int pressedKeyColor = 0;
+    public int keyColor = 0xffffffff;
+    public int pressedKeyColor = 0xff000000;
     public boolean rainbowMode = false;
     public int rainbowOffset = 9;
-    public int rainbowSpeed = 5;
-    public boolean renderInGui = true;
+    public int rainbowSpeed = 4;
     public boolean roundedBackground = false;
+    public boolean renderInGui = true;
     public boolean keyShadow = false;
-    public boolean showMovement = true;
-    public boolean showClick = true;
-    public boolean showJump = true;
     public CpsType cpsType = CpsType.ALWAYS;
     public double displayFactor = 1;
-    public int horizontalSlider = 0;
-    public int verticalSlider = 0;
+    public int horizontalSlider = 20;
+    public int verticalSlider = 20;
+    public boolean showMovement = true;
+    public boolean showJump = true;
+    public boolean showClick = true;
 
     private TipTapShowConfig() {}
 
