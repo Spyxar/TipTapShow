@@ -31,7 +31,7 @@ public class Row
     }
 
     private final int width;
-    public int height;
+    private final int height;
 
     public int getHeight()
     {

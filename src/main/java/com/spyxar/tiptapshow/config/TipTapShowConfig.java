@@ -71,7 +71,7 @@ public final class TipTapShowConfig
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            TipTapShowMod.LOGGER.error("An error occured while trying to save the config", e);
         }
     }
 }

@@ -41,6 +41,12 @@ public class PositionGui extends Screen
     {
         TipTapShowConfig config = TipTapShowMod.config;
 
+        if (client == null)
+        {
+            TipTapShowMod.LOGGER.error("Client was null, failed to open positioning screen.");
+            return;
+        }
+
         widget = new PositionWidget((int) (config.horizontalSlider / client.getWindow().getScaleFactor()), (int) (config.verticalSlider / client.getWindow().getScaleFactor()), 200, 50);
         this.addSelectableChild(widget);
 
@@ -53,6 +59,11 @@ public class PositionGui extends Screen
     @Override
     public void close()
     {
+        if (client == null)
+        {
+            TipTapShowMod.LOGGER.error("Client was null, failed to save position and close screen.");
+            return;
+        }
         client.setScreen(parent);
 
         TipTapShowConfig config = TipTapShowMod.config;
@@ -303,12 +314,6 @@ public class PositionGui extends Screen
         public int getHeight()
         {
             return this.height;
-        }
-
-        @Override
-        public int getNavigationOrder()
-        {
-            return Element.super.getNavigationOrder();
         }
 
         @Override

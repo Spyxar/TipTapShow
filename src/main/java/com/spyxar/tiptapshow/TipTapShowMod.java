@@ -27,7 +27,7 @@ public class TipTapShowMod implements ModInitializer
     public static TipTapShowMod instance = null;
     public static TipTapShowConfig config = null;
 
-    public static Logger LOGGER = LogManager.getLogger("TipTapShow");
+    public static final Logger LOGGER = LogManager.getLogger("TipTapShow");
 
     @Override
     public void onInitialize()
