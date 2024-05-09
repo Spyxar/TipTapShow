@@ -75,10 +75,15 @@ public class PositionGui extends Screen
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta)
     {
+        super.renderBackground(context, mouseX, mouseY, delta);
+
         widget.render(context, mouseX, mouseY, delta);
 
         super.render(context, mouseX, mouseY, delta);
     }
+
+    @Override
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {}
 
     @Override
     public void mouseMoved(double mouseX, double mouseY)
