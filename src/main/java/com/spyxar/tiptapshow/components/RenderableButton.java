@@ -201,10 +201,7 @@ public class RenderableButton
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
 
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-
-        bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
 
         float endX = x + width;
         float endY = y + height;
@@ -224,11 +221,11 @@ public class RenderableButton
                 float sin = (float) (Math.sin(radianAngle) * radius);
                 float cos = (float) (Math.cos(radianAngle) * radius);
 
-                bufferBuilder.vertex(matrices.peek().getPositionMatrix(), current[1] + sin, current[2] + cos, 0).color(color).next();
+                bufferBuilder.vertex(matrices.peek().getPositionMatrix(), current[1] + sin, current[2] + cos, 0).color(color);
             }
         }
 
-        tessellator.draw();
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 
         RenderSystem.enableCull();
         RenderSystem.disableBlend();

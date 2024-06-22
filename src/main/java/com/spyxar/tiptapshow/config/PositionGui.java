@@ -214,7 +214,7 @@ public class PositionGui extends Screen
             setWidth(updatedRowWidth);
 
             context.fill(this.x, this.y, this.x + updatedRowWidth, rows.get(rows.size() - 1).getY() + rows.get(rows.size() - 1).getHeight(), 0x373dff47);
-            Identifier texture = new Identifier(TipTapShowMod.MOD_ID, "textures/positionguitexture.png");
+            Identifier texture = Identifier.of(TipTapShowMod.MOD_ID, "textures/positionguitexture.png");
             //Top left
             context.drawTexture(texture, this.x - 4, this.y - 4,
                     16, 16,

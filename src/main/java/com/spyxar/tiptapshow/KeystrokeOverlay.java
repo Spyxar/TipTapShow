@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.render.RenderTickCounter;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class KeystrokeOverlay implements HudRenderCallback
 
     @SuppressWarnings("RedundantArrayCreation")
     @Override
-    public void onHudRender(DrawContext context, float tickDelta)
+    public void onHudRender(DrawContext context, RenderTickCounter tickCounter)
     {
         TipTapShowConfig config = TipTapShowConfig.loadConfig();
         if (!config.isEnabled)
