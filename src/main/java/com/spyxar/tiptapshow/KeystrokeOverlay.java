@@ -45,6 +45,10 @@ public class KeystrokeOverlay implements HudRenderCallback
         {
             return;
         }
+        if (client.options.hudHidden)
+        {
+            return;
+        }
 
         ArrayList<Row> unfinishedRows = new ArrayList<>();
         int x = (int) (config.horizontalSlider / client.getWindow().getScaleFactor());
