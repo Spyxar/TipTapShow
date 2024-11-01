@@ -7,6 +7,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.*;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.Window;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -216,21 +217,21 @@ public class PositionGui extends Screen
             context.fill(this.x, this.y, this.x + updatedRowWidth, rows.get(rows.size() - 1).getY() + rows.get(rows.size() - 1).getHeight(), 0x373dff47);
             Identifier texture = Identifier.of(TipTapShowMod.MOD_ID, "textures/positionguitexture.png");
             //Top left
-            context.drawTexture(texture, this.x - 4, this.y - 4,
-                    16, 16,
-                    0, 0, 6, 6, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y - 4,
+                    0, 0,
+                    16, 16, 6, 6, 16, 16);
             //Top right
-            context.drawTexture(texture, this.x + this.width - 12, this.y - 4,
-                    16, 16,
-                    10, 0, 6, 6, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y - 4,
+                    10, 0,
+                    16, 16, 6, 6, 16, 16);
             //Bottom Left
-            context.drawTexture(texture, this.x - 4, this.y + this.height - 9,
-                    16, 16,
-                    0, 10, 6, 6, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y + this.height - 9,
+                    0, 10,
+                    16, 16, 6, 6, 16, 16);
             //Bottom Right
-            context.drawTexture(texture, this.x + this.width - 12, this.y + this.height - 9,
-                    16, 16,
-                    10, 10, 6, 6, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y + this.height - 9,
+                    10, 10,
+                    16, 16, 6, 6, 16, 16);
         }
 
         @Override
