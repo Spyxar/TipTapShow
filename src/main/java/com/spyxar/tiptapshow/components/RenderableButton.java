@@ -149,13 +149,45 @@ public class RenderableButton
 
     private static String getDisplayTextForUseOrAttackKey(KeyBinding key, int clicks, String label)
     {
+        String lmbString = Text.translatable("text.tiptapshow.lmb").getString();
+        String rmbString = Text.translatable("text.tiptapshow.rmb").getString();
         if (!shouldRenderCps(clicks))
         {
-            return key.isDefault() ? Text.translatable(label).getString() : key.getBoundKeyLocalizedText().getString().toUpperCase();
+            if (key.isDefault())
+            {
+                return Text.translatable(label).getString();
+            }
+            else
+            {
+                if (key.matchesMouse(0))
+                {
+                    return lmbString;
+                }
+                else if (key.matchesMouse(1))
+                {
+                    return rmbString;
+                }
+                return key.getBoundKeyLocalizedText().getString().toUpperCase();
+            }
         }
         else
         {
-            return (key.isDefault() ? Text.translatable(label).getString() : key.getBoundKeyLocalizedText().getString().toUpperCase()) + "\n" + clicks + " " + Text.translatable("text.tiptapshow.cps").getString();
+            if (key.isDefault())
+            {
+                return Text.translatable(label).getString() + "\n" + clicks + " " + Text.translatable("text.tiptapshow.cps").getString();
+            }
+            else
+            {
+                if (key.matchesMouse(0))
+                {
+                    return lmbString + "\n" + clicks + " " + Text.translatable("text.tiptapshow.cps").getString();
+                }
+                else if (key.matchesMouse(1))
+                {
+                    return rmbString + "\n" + clicks + " " + Text.translatable("text.tiptapshow.cps").getString();
+                }
+                return key.getBoundKeyLocalizedText().getString().toUpperCase() + "\n" + clicks + " " + Text.translatable("text.tiptapshow.cps").getString();
+            }
         }
     }
 
