@@ -14,6 +14,7 @@ public final class TipTapShowConfig
     {
         ALWAYS,
         ON_CLICK,
+        @SuppressWarnings("unused") //Not actually unused, config scrolls through this enum
         NEVER
     }
 
