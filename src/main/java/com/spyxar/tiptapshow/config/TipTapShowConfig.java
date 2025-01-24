@@ -29,6 +29,7 @@ public final class TipTapShowConfig
     public int rainbowSpeed = 4;
     public boolean roundedBackground = false;
     public boolean renderInGui = true;
+    public boolean renderWhenPlayerListOpen = true;
     public boolean keyShadow = false;
     public CpsType cpsType = CpsType.ALWAYS;
     public double displayFactor = 1;

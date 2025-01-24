@@ -26,6 +26,8 @@
   "config.tiptapshow.description.roundedbackground": "When enabled, the key backgrounds will have rounded corners",
   "config.tiptapshow.option.renderingui": "Render in GUI",
   "config.tiptapshow.description.renderingui": "Whether or not to render the overlay while in a GUI",
+  "config.tiptapshow.option.renderwhenplayerlistopen": "Render with player list",
+  "config.tiptapshow.description.renderwhenplayerlistopen": "Whether or not to render the overlay while the player list is open",
   "config.tiptapshow.option.keyshadow": "Key shadow",
   "config.tiptapshow.description.keyshadow": "When enabled, the key text will be rendered with a shadow",
   "config.tiptapshow.option.cpstype": "CPS type",

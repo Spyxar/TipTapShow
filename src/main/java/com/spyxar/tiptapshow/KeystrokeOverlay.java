@@ -45,6 +45,10 @@ public class KeystrokeOverlay implements HudRenderCallback
         {
             return;
         }
+        if (!config.renderWhenPlayerListOpen && client.options.playerListKey.isPressed() && !client.isConnectedToLocalServer())
+        {
+            return;
+        }
         if (client.options.hudHidden)
         {
             return;

@@ -61,6 +61,10 @@ public class ClothConfigScreenFactory
                 .setDefaultValue(true)
                 .setTooltip(Text.translatable("config.tiptapshow.description.renderingui"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.renderInGui = newValue).build());
+        display.add(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.renderwhenplayerlistopen"), TipTapShowMod.config.renderWhenPlayerListOpen)
+                .setDefaultValue(true)
+                .setTooltip(Text.translatable("config.tiptapshow.description.renderwhenplayerlistopen"))
+                .setSaveConsumer(newValue -> TipTapShowMod.config.renderWhenPlayerListOpen = newValue).build());
         display.add(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.keyshadow"), TipTapShowMod.config.keyShadow)
                 .setDefaultValue(false)
                 .setTooltip(Text.translatable("config.tiptapshow.description.keyshadow"))
