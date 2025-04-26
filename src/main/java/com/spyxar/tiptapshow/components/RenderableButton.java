@@ -1,15 +1,14 @@
 package com.spyxar.tiptapshow.components;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.spyxar.tiptapshow.ClickCounter;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
+import me.x150.renderer.render.ExtendedDrawContext;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
+import org.joml.Vector4f;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -19,9 +18,6 @@ import static com.spyxar.tiptapshow.TipTapShowMod.config;
 
 public class RenderableButton
 {
-    private static final int ROUNDED_CORNER_RADIUS = 5;
-    private static final int ROUNDED_CORNER_SAMPLES = 40;
-
     private final int x;
     public int y;
     private final int width;
@@ -34,8 +30,6 @@ public class RenderableButton
 
     private static long lastUsedRainbowMillis = 0;
     private static int rainbowFramesSkipped = 0;
-
-    private static final float[][] cornerCache = new float[4][3];
 
     public RenderableButton(int x, int y, int width, int height, KeyBinding key)
     {
@@ -68,7 +62,11 @@ public class RenderableButton
 
         if (config.roundedBackground)
         {
-            renderRoundedRectangle(context.getMatrices(), fillColor, x, y, width, height, ROUNDED_CORNER_RADIUS, ROUNDED_CORNER_SAMPLES);
+            int red = fillColor & 0xff;
+            int green = (fillColor >> 8) & 0xff;
+            int blue = (fillColor >> 16) & 0xff;
+            int alpha = (fillColor >> 24) & 0xff;
+            ExtendedDrawContext.drawRoundedRect(context, x, y, width, height, new Vector4f(5), new me.x150.renderer.util.Color(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f));
         }
         else
         {
@@ -220,54 +218,5 @@ public class RenderableButton
             rainbowFramesSkipped = 0;
         }
         rainbowFramesSkipped++;
-    }
-
-    private static void renderRoundedRectangle(MatrixStack stack, int color, float x, float y, float width, float height, float radius, float samples)
-    {
-        renderRoundedRectangle(stack, x, y, width, height, radius, radius, radius, radius, color, samples);
-    }
-
-    private static void renderRoundedRectangle(MatrixStack matrices, float x, float y, float width, float height, float radiusTL, float radiusTR, float radiusBL, float radiusBR, int color, float samples)
-    {
-        RenderSystem.disableCull();
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
-
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
-
-        float endX = x + width;
-        float endY = y + height;
-
-        fillCornerCache(radiusBR, endX - radiusBR, endY - radiusBR, 0);
-        fillCornerCache(radiusTR, endX - radiusTR, y + radiusTR, 1);
-        fillCornerCache(radiusTL, x + radiusTL, y + radiusTL, 2);
-        fillCornerCache(radiusBL, x + radiusBL, endY - radiusBL, 3);
-
-        for (int i = 0; i < 4; i++)
-        {
-            float[] current = cornerCache[i];
-            float radius = current[0];
-            for (float angle = i * 90; angle <= (i + 1) * 90; angle += 90 / samples)
-            {
-                float radianAngle = (float) Math.toRadians(angle);
-                float sin = (float) (Math.sin(radianAngle) * radius);
-                float cos = (float) (Math.cos(radianAngle) * radius);
-
-                bufferBuilder.vertex(matrices.peek().getPositionMatrix(), current[1] + sin, current[2] + cos, 0).color(color);
-            }
-        }
-
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-
-        RenderSystem.enableCull();
-        RenderSystem.disableBlend();
-    }
-
-    private static void fillCornerCache(float a, float b, float c, int i)
-    {
-        cornerCache[i][0] = a;
-        cornerCache[i][1] = b;
-        cornerCache[i][2] = c;
     }
 }
