@@ -5,7 +5,7 @@
   "mixins": [
   ],
   "client": [
-    "MinecraftClientMixin"
+    "MouseMixin"
   ],
   "injectors": {
     "defaultRequire": 1
