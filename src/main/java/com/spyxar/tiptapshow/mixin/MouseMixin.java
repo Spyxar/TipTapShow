@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MouseMixin
 {
     @Inject(method = "onMouseButton", at = @At("HEAD"))
-    public void test(long window, int button, int action, int mods, CallbackInfo ci)
+    public void tiptapshow$onMouseButton(long window, int button, int action, int mods, CallbackInfo ci)
     {
         if (action != GLFW.GLFW_PRESS)
         {
