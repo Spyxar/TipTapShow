@@ -48,7 +48,7 @@ public class PositionGui extends Screen
             return;
         }
 
-        widget = new PositionWidget((int) (config.horizontalSlider / client.getWindow().getScaleFactor()), (int) (config.verticalSlider / client.getWindow().getScaleFactor()), 200, 50);
+        widget = new PositionWidget(config.horizontalSlider / client.getWindow().getScaleFactor(), config.verticalSlider / client.getWindow().getScaleFactor(), 200, 50);
         this.addSelectableChild(widget);
 
         this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> close())
@@ -68,8 +68,8 @@ public class PositionGui extends Screen
         client.setScreen(parent);
 
         TipTapShowConfig config = TipTapShowMod.config;
-        config.horizontalSlider = (int) (widget.getX() * client.getWindow().getScaleFactor());
-        config.verticalSlider = (int) (widget.getY() * client.getWindow().getScaleFactor());
+        config.horizontalSlider = widget.getX() * client.getWindow().getScaleFactor();
+        config.verticalSlider = widget.getY() * client.getWindow().getScaleFactor();
         config.saveConfig();
     }
 
