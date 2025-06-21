@@ -2,13 +2,10 @@ package com.spyxar.tiptapshow.components;
 
 import com.spyxar.tiptapshow.ClickCounter;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
-import me.x150.renderer.render.ExtendedDrawContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
-import org.joml.Vector4f;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -60,17 +57,18 @@ public class RenderableButton
             textColor = config.keyColor;
         }
 
-        if (config.roundedBackground)
+        // ToDo: Re-enable when renderer 1.21.6 is out
+//        if (config.roundedBackground)
+//        {
+//            int red = fillColor & 0xff;
+//            int green = (fillColor >> 8) & 0xff;
+//            int blue = (fillColor >> 16) & 0xff;
+//            int alpha = (fillColor >> 24) & 0xff;
+//            ExtendedDrawContext.drawRoundedRect(context, x, y, width, height, new Vector4f(5), new me.x150.renderer.util.Color(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f));
+//        }
+//        else
         {
-            int red = fillColor & 0xff;
-            int green = (fillColor >> 8) & 0xff;
-            int blue = (fillColor >> 16) & 0xff;
-            int alpha = (fillColor >> 24) & 0xff;
-            ExtendedDrawContext.drawRoundedRect(context, x, y, width, height, new Vector4f(5), new me.x150.renderer.util.Color(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f));
-        }
-        else
-        {
-            context.fill(RenderLayer.getGuiOverlay(), x, y, x + width, y + height, fillColor);
+            context.fill(x, y, x + width, y + height, fillColor);
         }
 
         if (displayText.equals("{jumpKey}"))

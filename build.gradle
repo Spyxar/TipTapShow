@@ -32,7 +32,8 @@ dependencies {
 	}
 
 	//Renderer
-	include modImplementation("io.github.0x3c50.renderer:renderer-fabric:2.0.2")
+	// TEMPORARILY DISABLE RENDERER UNTIL 1.21.6 RELEASE
+//	include modImplementation("io.github.0x3c50.renderer:renderer-fabric:${project.renderer_version}")
 
 	//Toml
 	modImplementation("com.moandjiezana.toml:toml4j:${project.toml4j_version}")

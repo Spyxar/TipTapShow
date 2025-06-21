@@ -3,11 +3,11 @@ package com.spyxar.tiptapshow.config;
 import com.spyxar.tiptapshow.TipTapShowMod;
 import com.spyxar.tiptapshow.components.Row;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.*;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.Window;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -217,19 +217,19 @@ public class PositionGui extends Screen
             context.fill(this.x, this.y, this.x + updatedRowWidth, rows.get(rows.size() - 1).getY() + rows.get(rows.size() - 1).getHeight(), 0x373dff47);
             Identifier texture = Identifier.of(TipTapShowMod.MOD_ID, "textures/positionguitexture.png");
             //Top left
-            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y - 4,
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y - 4,
                     0, 0,
                     16, 16, 6, 6, 16, 16);
             //Top right
-            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y - 4,
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y - 4,
                     10, 0,
                     16, 16, 6, 6, 16, 16);
             //Bottom Left
-            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y + this.height - 9,
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y + this.height - 9,
                     0, 10,
                     16, 16, 6, 6, 16, 16);
             //Bottom Right
-            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y + this.height - 9,
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y + this.height - 9,
                     10, 10,
                     16, 16, 6, 6, 16, 16);
         }
