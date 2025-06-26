@@ -2,10 +2,12 @@ package com.spyxar.tiptapshow.components;
 
 import com.spyxar.tiptapshow.ClickCounter;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
+import me.x150.renderer.render.ExtendedDrawContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
+import org.joml.Vector4f;
 
 import java.awt.*;
 import java.util.HashMap;
