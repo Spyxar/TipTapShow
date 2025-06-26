@@ -79,12 +79,12 @@ public class ClothConfigScreenFactory
                 .setTooltip(Text.translatable("config.tiptapshow.description.displayfactor"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.displayFactor = newValue).build());
         display.add(entryBuilder.startIntSlider(Text.translatable("config.tiptapshow.option.horizontalslider"), TipTapShowMod.config.horizontalSlider, 0,
-                        (int) MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledWidth())
+                        MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledWidth())
                 .setDefaultValue(20)
                 .setTooltip(Text.translatable("config.tiptapshow.description.horizontalslider"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.horizontalSlider = newValue).build());
         display.add(entryBuilder.startIntSlider(Text.translatable("config.tiptapshow.option.verticalslider"), TipTapShowMod.config.verticalSlider, 0,
-                        (int) MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledHeight())
+                        MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledHeight())
                 .setDefaultValue(20)
                 .setTooltip(Text.translatable("config.tiptapshow.description.verticalslider"))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.verticalSlider = newValue).build());

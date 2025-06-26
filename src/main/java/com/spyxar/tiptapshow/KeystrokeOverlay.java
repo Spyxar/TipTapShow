@@ -53,7 +53,7 @@ public class KeystrokeOverlay
         }
 
         ArrayList<Row> unfinishedRows = new ArrayList<>();
-        int x = (int) (config.horizontalSlider / client.getWindow().getScaleFactor());
+        int x = config.horizontalSlider / client.getWindow().getScaleFactor();
         int updatedRowWidth = (int) (ROW_WIDTH * config.displayFactor);
         int updatedRowHeightNormal = (int) (ROW_HEIGHT_NORMAL * config.displayFactor);
         int updatedRowHeightSmall = (int) (ROW_HEIGHT_SMALL * config.displayFactor);
@@ -80,7 +80,7 @@ public class KeystrokeOverlay
         for (int i = 0; i < unfinishedRows.size(); i++)
         {
             Row row = unfinishedRows.get(i);
-            int height = (int) (config.verticalSlider / client.getWindow().getScaleFactor()) + ROW_SEPARATOR_SIZE * i;
+            int height = (config.verticalSlider / client.getWindow().getScaleFactor()) + ROW_SEPARATOR_SIZE * i;
             for (int j = 0; j < i; j++)
             {
                 height += rows.get(j).getHeight();
