@@ -57,16 +57,15 @@ public class RenderableButton
             textColor = config.keyColor;
         }
 
-        // ToDo: Re-enable when renderer 1.21.6 is out
-//        if (config.roundedBackground)
-//        {
-//            int red = fillColor & 0xff;
-//            int green = (fillColor >> 8) & 0xff;
-//            int blue = (fillColor >> 16) & 0xff;
-//            int alpha = (fillColor >> 24) & 0xff;
-//            ExtendedDrawContext.drawRoundedRect(context, x, y, width, height, new Vector4f(5), new me.x150.renderer.util.Color(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f));
-//        }
-//        else
+        if (config.roundedBackground)
+        {
+            int red = fillColor & 0xff;
+            int green = (fillColor >> 8) & 0xff;
+            int blue = (fillColor >> 16) & 0xff;
+            int alpha = (fillColor >> 24) & 0xff;
+            ExtendedDrawContext.drawRoundedRect(context, x, y, width, height, new Vector4f(5), new me.x150.renderer.util.Color(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f));
+        }
+        else
         {
             context.fill(x, y, x + width, y + height, fillColor);
         }
