@@ -3,7 +3,6 @@ package com.spyxar.tiptapshow;
 import com.spyxar.tiptapshow.components.Row;
 import com.spyxar.tiptapshow.config.PositionGui;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
@@ -11,7 +10,7 @@ import net.minecraft.client.render.RenderTickCounter;
 
 import java.util.ArrayList;
 
-public class KeystrokeOverlay implements HudRenderCallback
+public class KeystrokeOverlay
 {
     public static final int ROW_SEPARATOR_SIZE = 1;
     public static final int ROW_WIDTH = 77;
@@ -19,7 +18,6 @@ public class KeystrokeOverlay implements HudRenderCallback
     public static final int ROW_HEIGHT_SMALL = 20;
 
     @SuppressWarnings("RedundantArrayCreation")
-    @Override
     public void onHudRender(DrawContext context, RenderTickCounter tickCounter)
     {
         TipTapShowConfig config = TipTapShowConfig.loadConfig();
