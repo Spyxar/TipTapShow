@@ -30,10 +30,11 @@
   "mixins": [
     "tiptapshow.mixins.json"
   ],
-  "requires": {
-    "fabricloader": ">=0.15.0",
-    "minecraft": "~1.20.4",
-    "java": ">=17"
+  "depends": {
+    "fabricloader": ">=0.16.4",
+    "minecraft": "~1.21.7",
+    "java": ">=21",
+    "fabric-api": "*"
   },
   "suggests": {
     "modmenu": "*",
