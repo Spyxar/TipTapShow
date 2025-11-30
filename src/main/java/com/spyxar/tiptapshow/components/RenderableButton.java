@@ -4,7 +4,9 @@ import com.spyxar.tiptapshow.ClickCounter;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import me.x150.renderer.render.ExtendedDrawContext;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.input.MouseInput;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 import org.joml.Vector4f;
@@ -148,6 +150,9 @@ public class RenderableButton
     {
         String lmbString = Text.translatable("text.tiptapshow.lmb").getString();
         String rmbString = Text.translatable("text.tiptapshow.rmb").getString();
+        Click leftClick = new Click(0, 0, new MouseInput(0, 0));
+        Click rightClick = new Click(0, 0, new MouseInput(1, 0));
+        
         if (!shouldRenderCps(clicks))
         {
             if (key.isDefault())
@@ -156,11 +161,11 @@ public class RenderableButton
             }
             else
             {
-                if (key.matchesMouse(0))
+                if (key.matchesMouse(leftClick))
                 {
                     return lmbString;
                 }
-                else if (key.matchesMouse(1))
+                else if (key.matchesMouse(rightClick))
                 {
                     return rmbString;
                 }
@@ -175,11 +180,11 @@ public class RenderableButton
             }
             else
             {
-                if (key.matchesMouse(0))
+                if (key.matchesMouse(leftClick))
                 {
                     return lmbString + "\n" + clicks + " " + Text.translatable("text.tiptapshow.cps").getString();
                 }
-                else if (key.matchesMouse(1))
+                else if (key.matchesMouse(rightClick))
                 {
                     return rmbString + "\n" + clicks + " " + Text.translatable("text.tiptapshow.cps").getString();
                 }

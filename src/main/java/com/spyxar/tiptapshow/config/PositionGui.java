@@ -105,25 +105,25 @@ public class PositionGui extends Screen
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button)
+    public boolean mouseClicked(Click click, boolean focused)
     {
-        if (button == 0)
+        if (click.button() == 0)
         {
-            if (isHoveringOverWidget(mouseX, mouseY))
+            if (isHoveringOverWidget(click.x(), click.y()))
             {
                 dragging = true;
-                dragX = (int) (mouseX - widget.getX());
-                dragY = (int) (mouseY - widget.getY());
+                dragX = (int) (click.x() - widget.getX());
+                dragY = (int) (click.y() - widget.getY());
                 return true;
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, focused);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button)
+    public boolean mouseReleased(Click click)
     {
-        if (button == 0 && dragging)
+        if (click.button() == 0 && dragging)
         {
             dragging = false;
         }
