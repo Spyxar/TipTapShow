@@ -2,8 +2,16 @@ package com.spyxar.tiptapshow.components;
 
 import com.spyxar.tiptapshow.ClickCounter;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
+//? if >1.21.4 {
 import me.x150.renderer.render.ExtendedDrawContext;
+//?} else {
+/*import me.x150.renderer.render.Renderer2d;
+*///?}
 import net.minecraft.client.MinecraftClient;
+//? if >=1.21.9 {
+import net.minecraft.client.gui.Click;
+import net.minecraft.client.input.MouseInput;
+//?}
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
@@ -24,6 +32,11 @@ public class RenderableButton
 
     private final KeyBinding key;
     private final String displayText;
+
+    //? if >1.21.9 {
+    private static final Click leftClick = new Click(0, 0, new MouseInput(0, 0));
+    private static final Click rightClick = new Click(0, 0, new MouseInput(1, 0));
+    //?}
 
     private static final Map<String, Integer> cachedRainbowColors = new HashMap<>();
 
@@ -59,18 +72,25 @@ public class RenderableButton
             textColor = config.keyColor;
         }
 
-        if (config.roundedBackground)
-        {
-            int red = fillColor & 0xff;
-            int green = (fillColor >> 8) & 0xff;
-            int blue = (fillColor >> 16) & 0xff;
-            int alpha = (fillColor >> 24) & 0xff;
-            ExtendedDrawContext.drawRoundedRect(context, x, y, width, height, new Vector4f(5), new me.x150.renderer.util.Color(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f));
-        }
-        else
-        {
-            context.fill(x, y, x + width, y + height, fillColor);
-        }
+        //ToDo: Temporarily disabled until rounded backgrounds are fixed for every version (Ref: ClothConfigScreenFactory:60)
+//        if (config.roundedBackground)
+//        {
+//            int red = fillColor & 0xff;
+//            int green = (fillColor >> 8) & 0xff;
+//            int blue = (fillColor >> 16) & 0xff;
+//            int alpha = (fillColor >> 24) & 0xff;
+//            //? if =1.21.4 {
+//            /*// Swapping blue and red seems to produce the correct color somehow
+//            Renderer2d.renderRoundedQuad(context.getMatrices(), new Color(blue / 255.0f, green / 255.0f, red / 255.0f, alpha / 255.0f), x, y, x+width, y+height, 5, 5);
+//            *///?} else {
+//            ExtendedDrawContext.drawRoundedRect(context, x, y, width, height, new Vector4f(5), new me.x150.renderer.util.Color(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f));
+//            //?}
+//        }
+//        else
+//        {
+//            context.fill(x, y, x + width, y + height, fillColor);
+//        }
+        context.fill(x, y, x + width, y + height, fillColor);
 
         if (displayText.equals("{jumpKey}"))
         {
@@ -156,11 +176,11 @@ public class RenderableButton
             }
             else
             {
-                if (key.matchesMouse(0))
+                if (key.matchesMouse(/*? >=1.21.9 {*/ leftClick /*?} else {*/ /*0 *//*?}*/))
                 {
                     return lmbString;
                 }
-                else if (key.matchesMouse(1))
+                else if (key.matchesMouse(/*? >=1.21.9 {*/ rightClick /*?} else {*/ /*1 *//*?}*/))
                 {
                     return rmbString;
                 }
@@ -175,11 +195,11 @@ public class RenderableButton
             }
             else
             {
-                if (key.matchesMouse(0))
+                if (key.matchesMouse(/*? >=1.21.9 {*/ leftClick /*?} else {*/ /*0 *//*?}*/))
                 {
                     return lmbString + "\n" + clicks + " " + Text.translatable("text.tiptapshow.cps").getString();
                 }
-                else if (key.matchesMouse(1))
+                else if (key.matchesMouse(/*? >=1.21.9 {*/ rightClick /*?} else {*/ /*1 *//*?}*/))
                 {
                     return rmbString + "\n" + clicks + " " + Text.translatable("text.tiptapshow.cps").getString();
                 }

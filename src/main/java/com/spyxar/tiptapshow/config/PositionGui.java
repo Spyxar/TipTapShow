@@ -3,11 +3,15 @@ package com.spyxar.tiptapshow.config;
 import com.spyxar.tiptapshow.TipTapShowMod;
 import com.spyxar.tiptapshow.components.Row;
 import net.minecraft.client.MinecraftClient;
+//? if >1.21.5 {
 import net.minecraft.client.gl.RenderPipelines;
+//?}
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.*;
+//? if >1.21.4
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.Window;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -48,7 +52,11 @@ public class PositionGui extends Screen
             return;
         }
 
+        //? if <1.21.8 {
+        /*widget = new PositionWidget((int) (config.horizontalSlider / client.getWindow().getScaleFactor()), (int) (config.verticalSlider / client.getWindow().getScaleFactor()), 200, 50);
+        *///?} else {
         widget = new PositionWidget(config.horizontalSlider / client.getWindow().getScaleFactor(), config.verticalSlider / client.getWindow().getScaleFactor(), 200, 50);
+        //?}
         this.addSelectableChild(widget);
 
         this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> close())
@@ -68,8 +76,13 @@ public class PositionGui extends Screen
         client.setScreen(parent);
 
         TipTapShowConfig config = TipTapShowMod.config;
+        //? if <1.21.8 {
+        /*config.horizontalSlider = (int) (widget.getX() * client.getWindow().getScaleFactor());
+        config.verticalSlider = (int) (widget.getY() * client.getWindow().getScaleFactor());
+        *///?} else {
         config.horizontalSlider = widget.getX() * client.getWindow().getScaleFactor();
         config.verticalSlider = widget.getY() * client.getWindow().getScaleFactor();
+        //?}
         config.saveConfig();
     }
 
@@ -84,7 +97,9 @@ public class PositionGui extends Screen
     }
 
     @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {}
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta)
+    {
+    }
 
     @Override
     public void mouseMoved(double mouseX, double mouseY)
@@ -104,7 +119,34 @@ public class PositionGui extends Screen
         }
     }
 
+    //? if >=1.21.10 {
     @Override
+    public boolean mouseClicked(Click click, boolean doubled)
+    {
+        if (click.button() == 0)
+        {
+            if (isHoveringOverWidget(click.x(), click.y()))
+            {
+                dragging = true;
+                dragX = (int) (click.x() - widget.getX());
+                dragY = (int) (click.y() - widget.getY());
+                return true;
+            }
+        }
+        return super.mouseClicked(click, doubled);
+    }
+
+    @Override
+    public boolean mouseReleased(Click click)
+    {
+        if (click.button() == 0 && dragging)
+        {
+            dragging = false;
+        }
+        return true;
+    }
+    //?} else {
+    /*@Override
     public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
         if (button == 0)
@@ -129,6 +171,7 @@ public class PositionGui extends Screen
         }
         return true;
     }
+    *///?}
 
     public boolean isHoveringOverWidget(double mouseX, double mouseY)
     {
@@ -214,24 +257,35 @@ public class PositionGui extends Screen
             setHeight(rowHeight);
             setWidth(updatedRowWidth);
 
-            context.fill(this.x, this.y, this.x + updatedRowWidth, rows.get(rows.size() - 1).getY() + rows.get(rows.size() - 1).getHeight(), 0x373dff47);
+            context.fill(this.x, this.y, this.x + updatedRowWidth, rows.getLast().getY() + rows.getLast().getHeight(), 0x373dff47);
             Identifier texture = Identifier.of(TipTapShowMod.MOD_ID, "textures/positionguitexture.png");
-            //Top left
+            //? if >=1.21.8 {
             context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y - 4,
                     0, 0,
                     16, 16, 6, 6, 16, 16);
-            //Top right
             context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y - 4,
                     10, 0,
                     16, 16, 6, 6, 16, 16);
-            //Bottom Left
             context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y + this.height - 9,
                     0, 10,
                     16, 16, 6, 6, 16, 16);
-            //Bottom Right
             context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y + this.height - 9,
                     10, 10,
                     16, 16, 6, 6, 16, 16);
+            //?} else if >1.21.4 {
+            /*context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y - 4,
+                    0, 0,
+                    16, 16, 6, 6, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y - 4,
+                    10, 0,
+                    16, 16, 6, 6, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y + this.height - 9,
+                    0, 10,
+                    16, 16, 6, 6, 16, 16);
+            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y + this.height - 9,
+                    10, 10,
+                    16, 16, 6, 6, 16, 16);
+            *///?}
         }
 
         @Override
@@ -323,9 +377,13 @@ public class PositionGui extends Screen
         }
 
         @Override
-        public void forEachChild(Consumer<ClickableWidget> consumer) {}
+        public void forEachChild(Consumer<ClickableWidget> consumer)
+        {
+        }
 
         @Override
-        public void appendNarrations(NarrationMessageBuilder builder) {}
+        public void appendNarrations(NarrationMessageBuilder builder)
+        {
+        }
     }
 }

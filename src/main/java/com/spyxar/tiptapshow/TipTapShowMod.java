@@ -6,7 +6,11 @@ import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+//? if <1.21.8 {
+/*import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+*///?} else {
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+ //?}
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -32,17 +36,30 @@ public class TipTapShowMod implements ModInitializer
 
     private static final KeystrokeOverlay OVERLAY = new KeystrokeOverlay();
 
+    //? if >=1.21.10
+    public static final KeyBinding.Category MAIN_CATEGORY = KeyBinding.Category.create(Identifier.of(MOD_ID, "main"));
+
     @Override
     public void onInitialize()
     {
         instance = this;
         config = TipTapShowConfig.loadConfig();
 
+        //? if <1.21.8 {
+        /*HudRenderCallback.EVENT.register(OVERLAY);
+        *///?} else {
         HudElementRegistry.addLast(Identifier.of(MOD_ID, "keystroke_overlay"), OVERLAY::onHudRender);
+         //?}
 
-        KeyBinding openConfigKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openconfig", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.tiptapshow.main"));
+        //? if >=1.21.10 {
+        KeyBinding openConfigKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openconfig", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));
+        KeyBinding positionKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openposition", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));
+        KeyBinding toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.toggleoverlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));
+        //?} else {
+        /*KeyBinding openConfigKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openconfig", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.tiptapshow.main"));
         KeyBinding positionKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openposition", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.tiptapshow.main"));
         KeyBinding toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.toggleoverlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.tiptapshow.main"));
+        *///?}
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (toggleKeyBinding.wasPressed())
             {

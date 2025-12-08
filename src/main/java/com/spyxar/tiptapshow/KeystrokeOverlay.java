@@ -3,6 +3,8 @@ package com.spyxar.tiptapshow;
 import com.spyxar.tiptapshow.components.Row;
 import com.spyxar.tiptapshow.config.PositionGui;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
+//? if <1.21.8
+/*import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;*/
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
@@ -10,7 +12,7 @@ import net.minecraft.client.render.RenderTickCounter;
 
 import java.util.ArrayList;
 
-public class KeystrokeOverlay
+public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//*?}*/
 {
     public static final int ROW_SEPARATOR_SIZE = 1;
     public static final int ROW_WIDTH = 77;
@@ -53,7 +55,11 @@ public class KeystrokeOverlay
         }
 
         ArrayList<Row> unfinishedRows = new ArrayList<>();
+        //? if <1.21.8 {
+        /*int x = (int) (config.horizontalSlider / client.getWindow().getScaleFactor());
+        *///?} else {
         int x = config.horizontalSlider / client.getWindow().getScaleFactor();
+        //?}
         int updatedRowWidth = (int) (ROW_WIDTH * config.displayFactor);
         int updatedRowHeightNormal = (int) (ROW_HEIGHT_NORMAL * config.displayFactor);
         int updatedRowHeightSmall = (int) (ROW_HEIGHT_SMALL * config.displayFactor);
@@ -80,7 +86,11 @@ public class KeystrokeOverlay
         for (int i = 0; i < unfinishedRows.size(); i++)
         {
             Row row = unfinishedRows.get(i);
+            //? if <1.21.8 {
+            /*int height = (int) ((config.verticalSlider / client.getWindow().getScaleFactor()) + ROW_SEPARATOR_SIZE * i);
+            *///?} else {
             int height = (config.verticalSlider / client.getWindow().getScaleFactor()) + ROW_SEPARATOR_SIZE * i;
+             //?}
             for (int j = 0; j < i; j++)
             {
                 height += rows.get(j).getHeight();
