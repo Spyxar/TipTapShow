@@ -31,9 +31,6 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    //Renderer
-    include modImplementation("io.github.0x3c50.renderer:renderer-fabric:${property("renderer_version")}")
-
     //Toml
     modImplementation("com.moandjiezana.toml:toml4j:${project.toml4j_version}")
     include "com.moandjiezana.toml:toml4j:${project.toml4j_version}"

@@ -2,11 +2,6 @@ package com.spyxar.tiptapshow.components;
 
 import com.spyxar.tiptapshow.ClickCounter;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
-//? if >1.21.4 {
-import me.x150.renderer.render.ExtendedDrawContext;
-//?} else {
-/*import me.x150.renderer.render.Renderer2d;
-*///?}
 import net.minecraft.client.MinecraftClient;
 //? if >=1.21.9 {
 import net.minecraft.client.gui.Click;
