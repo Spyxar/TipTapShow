@@ -24,6 +24,8 @@
   "config.tiptapshow.description.rainbowspeed": "The speed of rainbow mode",
   "config.tiptapshow.option.roundedbackground": "Rounded Backgrounds",
   "config.tiptapshow.description.roundedbackground": "When enabled, the key backgrounds will have rounded corners",
+  "config.tiptapshow.option.renderindebughud": "Render in debug HUD",
+  "config.tiptapshow.description.renderindebughud": "Whether or not to render the overlay when a debug HUD is active (F3, hitboxes, etc.)",
   "config.tiptapshow.option.renderingui": "Render in GUI",
   "config.tiptapshow.description.renderingui": "Whether or not to render the overlay while in a GUI",
   "config.tiptapshow.option.renderwhenplayerlistopen": "Render with player list",

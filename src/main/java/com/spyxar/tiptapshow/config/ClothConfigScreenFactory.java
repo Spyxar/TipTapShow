@@ -59,6 +59,10 @@ public class ClothConfigScreenFactory
                 .setTooltip(Text.translatable("config.tiptapshow.description.roundedbackground"))
                 .setRequirement(Requirement.isTrue(() -> false))
                 .setSaveConsumer(newValue -> TipTapShowMod.config.roundedBackground = newValue).build());
+        display.add(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.renderindebughud"), TipTapShowMod.config.renderInDebugHud)
+                .setDefaultValue(true)
+                .setTooltip(Text.translatable("config.tiptapshow.description.renderindebughud"))
+                .setSaveConsumer(newValue -> TipTapShowMod.config.renderInDebugHud = newValue).build());
         display.add(entryBuilder.startBooleanToggle(Text.translatable("config.tiptapshow.option.renderingui"), TipTapShowMod.config.renderInGui)
                 .setDefaultValue(true)
                 .setTooltip(Text.translatable("config.tiptapshow.description.renderingui"))

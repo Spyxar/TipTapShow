@@ -33,7 +33,8 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
             TipTapShowMod.LOGGER.error("Client was null, making all renders fail.");
             return;
         }
-        if (client.getDebugHud().shouldShowDebugHud())
+
+        if (!config.renderInDebugHud && client.getDebugHud().shouldShowDebugHud())
         {
             return;
         }

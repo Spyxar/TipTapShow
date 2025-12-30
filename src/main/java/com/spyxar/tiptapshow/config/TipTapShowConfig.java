@@ -29,6 +29,7 @@ public final class TipTapShowConfig
     public int rainbowOffset = 9;
     public int rainbowSpeed = 4;
     public boolean roundedBackground = false;
+    public boolean renderInDebugHud = true;
     public boolean renderInGui = true;
     public boolean renderWhenPlayerListOpen = true;
     public boolean keyShadow = false;
