@@ -1,5 +1,4 @@
 plugins {
-    id 'java'
     id 'net.fabricmc.fabric-loom' version "${loom_version}"
     id 'maven-publish'
 }
@@ -11,13 +10,6 @@ base {
     archivesName = project.archives_base_name
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
-    }
-    withSourcesJar()
-}
-
 repositories {
     //ModMenu
     maven { url "https://maven.terraformersmc.com/releases/" }
@@ -26,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:26.1"
+    minecraft "com.mojang:minecraft:${stonecutter.current.project}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}"
 
@@ -54,8 +46,22 @@ processResources {
     }
 }
 
+loom {
+    runConfigs.all {
+        ideConfigGenerated(true) // Run configurations are not created for subprojects by default
+        runDir = "../../run" // Use a shared run folder and create separate worlds
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
+    it.options.release = 25
+}
+
+java {
+    withSourcesJar()
+
+    targetCompatibility = JavaVersion.VERSION_25
+    sourceCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
