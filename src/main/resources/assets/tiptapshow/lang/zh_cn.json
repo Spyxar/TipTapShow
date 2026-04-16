@@ -49,6 +49,7 @@
 	"text.tiptapshow.cpstype.onclick": "点击时",
 	"text.tiptapshow.cpstype.never": "从不",
 	"category.tiptapshow.main": "TipTapShow",
+  "key.category.tiptapshow.main": "TipTapShow",
 	"key.tiptapshow.openconfig": "打开设置",
 	"key.tiptapshow.toggleoverlay": "切换覆盖层",
 	"key.tiptapshow.openposition": "改变位置",

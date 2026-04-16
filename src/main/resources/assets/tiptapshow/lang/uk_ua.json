@@ -51,6 +51,7 @@
   "text.tiptapshow.cpstype.never": " Ніколи",
 
   "category.tiptapshow.main": "TipTapShow",
+  "key.category.tiptapshow.main": "TipTapShow",
   "key.tiptapshow.openconfig": "Відкрити налаштування",
   "key.tiptapshow.toggleoverlay": "Увімкнення/вимкнення оверлею",
   "key.tiptapshow.openposition": "Змінити позицію",
