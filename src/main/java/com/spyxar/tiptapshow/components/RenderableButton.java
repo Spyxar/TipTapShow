@@ -2,6 +2,14 @@ package com.spyxar.tiptapshow.components;
 
 import com.spyxar.tiptapshow.ClickCounter;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
+//? if >=26.1 {
+/*import net.minecraft.client.Minecraft;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
+import net.minecraft.network.chat.Component;
+*///?} else {
 import net.minecraft.client.MinecraftClient;
 //? if >=1.21.9 {
 import net.minecraft.client.gui.Click;
@@ -10,6 +18,7 @@ import net.minecraft.client.input.MouseInput;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
+//?}
 import org.joml.Vector4f;
 
 import java.awt.*;
@@ -25,10 +34,17 @@ public class RenderableButton
     private final int width;
     private final int height;
 
+    //? if >=26.1 {
+    /*private final KeyMapping key;
+    *///?} else {
     private final KeyBinding key;
+    //?}
     private final String displayText;
 
-    //? if >1.21.9 {
+    //? if >=26.1 {
+    /*private static final MouseButtonEvent leftClick = new MouseButtonEvent(0, 0, new MouseButtonInfo(0, 0));
+    private static final MouseButtonEvent rightClick = new MouseButtonEvent(0, 0, new MouseButtonInfo(1, 0));
+    *///?} else if >1.21.9 {
     private static final Click leftClick = new Click(0, 0, new MouseInput(0, 0));
     private static final Click rightClick = new Click(0, 0, new MouseInput(1, 0));
     //?}
@@ -38,7 +54,7 @@ public class RenderableButton
     private static long lastUsedRainbowMillis = 0;
     private static int rainbowFramesSkipped = 0;
 
-    public RenderableButton(int x, int y, int width, int height, KeyBinding key)
+    public RenderableButton(int x, int y, int width, int height, /*? >=26.1 {*/ /*KeyMapping*/ /*?} else {*/ KeyBinding /*?}*/ key)
     {
         this.x = x;
         this.y = y;
@@ -48,9 +64,9 @@ public class RenderableButton
         this.displayText = getDisplayText(key);
     }
 
-    public void render(DrawContext context)
+    public void render(/*? >=26.1 {*/ /*GuiGraphicsExtractor*/ /*?} else {*/ DrawContext /*?}*/ context)
     {
-        boolean isPressed = key.isPressed();
+        boolean isPressed = key./*? >=26.1 {*/ /*isDown()*/ /*?} else {*/ isPressed() /*?}*/;
         int fillColor = isPressed ? config.pressedBackgroundColor : config.backgroundColor;
         int textColor;
         if (config.rainbowMode)
@@ -93,7 +109,11 @@ public class RenderableButton
             return;
         }
 
+        //? if >=26.1 {
+        /*var client = Minecraft.getInstance();
+        *///?} else {
         MinecraftClient client = MinecraftClient.getInstance();
+        //?}
 
         //ToDo:
         // When in GUI scale 1, the RMB + CPS doesn't render correctly, not sure what causes it or how to fix
@@ -105,23 +125,38 @@ public class RenderableButton
             String[] splitText = displayText.split("\n", 2);
             String firstLine = splitText[0];
             String secondLine = splitText[1];
+            //? if >=26.1 {
+            /*float firstLineX = width / 2F + x - client.font.width(firstLine) / 2F;
+            float secondLineX = width / 2F + x - client.font.width(secondLine) / 2F;
+            float lineY = height / 2F + y - client.font.lineHeight * 2 / 2F;
+
+            renderText(context, firstLine, firstLineX, lineY, textColor);
+            renderText(context, secondLine, secondLineX, lineY + client.font.lineHeight, textColor);
+            *///?} else {
             float firstLineX = width / 2F + x - client.textRenderer.getWidth(firstLine) / 2F;
             float secondLineX = width / 2F + x - client.textRenderer.getWidth(secondLine) / 2F;
             float lineY = height / 2F + y - client.textRenderer.fontHeight * 2 / 2F;
 
             renderText(context, firstLine, firstLineX, lineY, textColor);
             renderText(context, secondLine, secondLineX, lineY + client.textRenderer.fontHeight, textColor);
+            //?}
             return;
         }
 
+        //? if >=26.1 {
+        /*int letterWidth = client.font.width(displayText);
+        float lineX = width / 2F + x - letterWidth / 2F;
+        float lineY = height / 2F + y - client.font.lineHeight / 2F;
+        *///?} else {
         int letterWidth = client.textRenderer.getWidth(displayText);
         float lineX = width / 2F + x - letterWidth / 2F;
         float lineY = height / 2F + y - client.textRenderer.fontHeight / 2F;
+        //?}
 
         renderText(context, displayText, lineX, lineY, textColor);
     }
 
-    private static void renderJump(DrawContext context, RenderableButton button, int textColor)
+    private static void renderJump(/*? >=26.1 {*/ /*GuiGraphicsExtractor*/ /*?} else {*/ DrawContext /*?}*/ context, RenderableButton button, int textColor)
     {
         int letterWidth = (int) (button.width * 0.6);
         float lineX = button.width / 2F + button.x;
@@ -129,16 +164,92 @@ public class RenderableButton
         context.fill(Math.round(lineX - letterWidth / 2F), (int) lineY - 1, Math.round(lineX + letterWidth / 2F), (int) lineY, textColor);
     }
 
-    private static void renderText(DrawContext context, String text, float lineX, float lineY, int textColor)
+    private static void renderText(/*? >=26.1 {*/ /*GuiGraphicsExtractor*/ /*?} else {*/ DrawContext /*?}*/ context, String text, float lineX, float lineY, int textColor)
     {
+        //? if >=26.1 {
+        /*var font = Minecraft.getInstance().font;
+        if (config.keyShadow)
+        {
+            context.text(font, text, (int) lineX, (int) lineY, textColor, true);
+            return;
+        }
+        context.text(font, text, (int) lineX, (int) lineY, textColor, false);
+        *///?} else {
         if (config.keyShadow)
         {
             context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, Text.of(text), (int) lineX, (int) lineY, textColor);
             return;
         }
         context.drawText(MinecraftClient.getInstance().textRenderer, text, (int) lineX, (int) lineY, textColor, false);
+        //?}
     }
 
+    //? if >=26.1 {
+    /*private static String getDisplayText(KeyMapping key)
+    {
+        Minecraft client = Minecraft.getInstance();
+        if (key.equals(client.options.keyAttack))
+        {
+            return getDisplayTextForUseOrAttackKey(key, ClickCounter.getLeftCps(), "text.tiptapshow.lmb");
+        }
+        else if (key.equals(client.options.keyUse))
+        {
+            return getDisplayTextForUseOrAttackKey(key, ClickCounter.getRightCps(), "text.tiptapshow.rmb");
+        }
+        else if (key.equals(client.options.keyJump))
+        {
+            return "{jumpKey}";
+        }
+        else
+        {
+            return key.getTranslatedKeyMessage().getString().toUpperCase();
+        }
+    }
+
+    private static String getDisplayTextForUseOrAttackKey(KeyMapping key, int clicks, String label)
+    {
+        String lmbString = Component.translatable("text.tiptapshow.lmb").getString();
+        String rmbString = Component.translatable("text.tiptapshow.rmb").getString();
+        if (!shouldRenderCps(clicks))
+        {
+            if (key.isDefault())
+            {
+                return Component.translatable(label).getString();
+            }
+            else
+            {
+                if (key.matchesMouse(leftClick))
+                {
+                    return lmbString;
+                }
+                else if (key.matchesMouse(rightClick))
+                {
+                    return rmbString;
+                }
+                return key.getTranslatedKeyMessage().getString().toUpperCase();
+            }
+        }
+        else
+        {
+            if (key.isDefault())
+            {
+                return Component.translatable(label).getString() + "\n" + clicks + " " + Component.translatable("text.tiptapshow.cps").getString();
+            }
+            else
+            {
+                if (key.matchesMouse(leftClick))
+                {
+                    return lmbString + "\n" + clicks + " " + Component.translatable("text.tiptapshow.cps").getString();
+                }
+                else if (key.matchesMouse(rightClick))
+                {
+                    return rmbString + "\n" + clicks + " " + Component.translatable("text.tiptapshow.cps").getString();
+                }
+                return key.getTranslatedKeyMessage().getString().toUpperCase() + "\n" + clicks + " " + Component.translatable("text.tiptapshow.cps").getString();
+            }
+        }
+    }
+    *///?} else {
     private static String getDisplayText(KeyBinding key)
     {
         if (key.equals(MinecraftClient.getInstance().options.attackKey))
@@ -202,6 +313,7 @@ public class RenderableButton
             }
         }
     }
+    //?}
 
     private static boolean shouldRenderCps(int clicks)
     {
@@ -228,7 +340,11 @@ public class RenderableButton
         if (framesToSkip <= rainbowFramesSkipped)
         {
             cachedRainbowColors.clear();
+            //? if >=26.1 {
+            /*lastUsedRainbowMillis += 1000 / Math.max(Minecraft.getInstance().getFps(), 60);
+            *///?} else {
             lastUsedRainbowMillis += 1000 / Math.max(MinecraftClient.getInstance().getCurrentFps(), 60);
+            //?}
             rainbowFramesSkipped = 0;
         }
         rainbowFramesSkipped++;
