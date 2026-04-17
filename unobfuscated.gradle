@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version "${loom_version}"
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
     id 'maven-publish'
 }
 
@@ -19,20 +19,19 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${stonecutter.current.project}"
-    mappings "net.fabricmc:yarn:${property("yarn_mappings")}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}"
 
     //ModMenu
-    modApi "com.terraformersmc:modmenu:${property("modmenu_version")}"
+    implementation "com.terraformersmc:modmenu:${property("modmenu_version")}"
 
     //Cloth Config
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${property("clothconfig_version")}") {
+    implementation("me.shedaniel.cloth:cloth-config-fabric:${property("clothconfig_version")}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
     //Toml
-    modImplementation("com.moandjiezana.toml:toml4j:${project.toml4j_version}")
+    implementation "com.moandjiezana.toml:toml4j:${project.toml4j_version}"
     include "com.moandjiezana.toml:toml4j:${project.toml4j_version}"
 }
 
@@ -55,16 +54,14 @@ loom {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+    it.options.release = 25
 }
 
 java {
     withSourcesJar()
 
-    def java = stonecutter.eval(stonecutter.current.version, ">=1.20.5")
-            ? JavaVersion.VERSION_21 : JavaVersion.VERSION_17
-    targetCompatibility = java
-    sourceCompatibility = java
+    targetCompatibility = JavaVersion.VERSION_25
+    sourceCompatibility = JavaVersion.VERSION_25
 }
 
 jar {

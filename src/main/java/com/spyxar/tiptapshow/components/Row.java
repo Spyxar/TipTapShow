@@ -1,7 +1,12 @@
 package com.spyxar.tiptapshow.components;
 
+//? if >=26.1 {
+/*import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+*///?} else {
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
+//?}
 
 public class Row
 {
@@ -38,7 +43,7 @@ public class Row
         return height;
     }
 
-    public Row(int x, int y, int width, int height, KeyBinding... keyBindings)
+    public Row(int x, int y, int width, int height, /*? >=26.1 {*/ /*KeyMapping*/ /*?} else {*/ KeyBinding /*?}*/... keyBindings)
     {
         this.x = x;
         this.y = y;
@@ -47,7 +52,7 @@ public class Row
         buttons = createRenderableButtonsForKeyBindings(keyBindings);
     }
 
-    public RenderableButton[] createRenderableButtonsForKeyBindings(KeyBinding[] keyBindings)
+    public RenderableButton[] createRenderableButtonsForKeyBindings(/*? >=26.1 {*/ /*KeyMapping[]*/ /*?} else {*/ KeyBinding[] /*?}*/ keyBindings)
     {
         RenderableButton[] renderableButtons = new RenderableButton[keyBindings.length];
         int amountOfButtons = keyBindings.length;
@@ -55,7 +60,11 @@ public class Row
         int buttonWidth = (this.width - amountOfSeparators * SEPARATOR_SIZE) / amountOfButtons;
         for (int i = 0; i < keyBindings.length; i++)
         {
+            //? if >=26.1 {
+            /*KeyMapping keyBinding = keyBindings[i];
+            *///?} else {
             KeyBinding keyBinding = keyBindings[i];
+            //?}
             if (keyBinding == null)
             {
                 continue;
@@ -69,7 +78,7 @@ public class Row
         return renderableButtons;
     }
 
-    public void render(DrawContext context)
+    public void render(/*? >=26.1 {*/ /*GuiGraphicsExtractor*/ /*?} else {*/ DrawContext /*?}*/ context)
     {
         for (RenderableButton button : buttons)
         {

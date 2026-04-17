@@ -2,6 +2,17 @@ package com.spyxar.tiptapshow.config;
 
 import com.spyxar.tiptapshow.TipTapShowMod;
 import com.spyxar.tiptapshow.components.Row;
+//? if >=26.1 {
+/*import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+*///?} else {
 import net.minecraft.client.MinecraftClient;
 //? if >1.21.5 {
 import net.minecraft.client.gl.RenderPipelines;
@@ -16,6 +27,7 @@ import net.minecraft.client.util.Window;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+//?}
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -35,17 +47,40 @@ public class PositionGui extends Screen
 
     private final Screen parent;
 
+    //? if >=26.1 {
+    /*public PositionGui(Component title, Screen previous)
+    {
+        super(title);
+        parent = previous;
+    }
+    *///?} else {
     public PositionGui(Text title, Screen previous)
     {
         super(title);
         parent = previous;
     }
+    //?}
 
     @Override
     protected void init()
     {
         TipTapShowConfig config = TipTapShowMod.config;
 
+        //? if >=26.1 {
+        /*if (minecraft == null)
+        {
+            TipTapShowMod.LOGGER.error("Client was null, failed to open positioning screen.");
+            return;
+        }
+
+        widget = new PositionWidget(config.horizontalSlider / minecraft.getWindow().getGuiScale(), config.verticalSlider / minecraft.getWindow().getGuiScale(), 200, 50);
+        this.addWidget(widget);
+
+        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, (button) -> onClose())
+                .pos(this.width / 2 - 100, this.height - 27)
+                .size(200, 20)
+                .build());
+        *///?} else {
         if (client == null)
         {
             TipTapShowMod.LOGGER.error("Client was null, failed to open positioning screen.");
@@ -63,9 +98,26 @@ public class PositionGui extends Screen
                 .position(this.width / 2 - 100, this.height - 27)
                 .size(200, 20)
                 .build());
+        //?}
     }
 
     @Override
+    //? if >=26.1 {
+    /*public void onClose()
+    {
+        if (minecraft == null)
+        {
+            TipTapShowMod.LOGGER.error("Client was null, failed to save position and close screen.");
+            return;
+        }
+        minecraft.setScreen(parent);
+
+        TipTapShowConfig config = TipTapShowMod.config;
+        config.horizontalSlider = widget.getX() * minecraft.getWindow().getGuiScale();
+        config.verticalSlider = widget.getY() * minecraft.getWindow().getGuiScale();
+        config.saveConfig();
+    }
+    *///?} else {
     public void close()
     {
         if (client == null)
@@ -85,8 +137,17 @@ public class PositionGui extends Screen
         //?}
         config.saveConfig();
     }
+    //?}
 
     @Override
+    //? if >=26.1 {
+    /*public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)
+    {
+        super.extractBackground(context, mouseX, mouseY, delta);
+        widget.extractRenderState(context, mouseX, mouseY, delta);
+        super.extractRenderState(context, mouseX, mouseY, delta);
+    }
+    *///?} else {
     public void render(DrawContext context, int mouseX, int mouseY, float delta)
     {
         super.renderBackground(context, mouseX, mouseY, delta);
@@ -95,17 +156,33 @@ public class PositionGui extends Screen
 
         super.render(context, mouseX, mouseY, delta);
     }
+    //?}
 
     @Override
+    //? if >=26.1 {
+    /*public void extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)
+    {
+    }
+    *///?} else {
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta)
     {
     }
+    //?}
 
     @Override
     public void mouseMoved(double mouseX, double mouseY)
     {
         if (dragging)
         {
+            //? if >=26.1 {
+            /*var window = Minecraft.getInstance().getWindow();
+
+            int maxX = window.getGuiScaledWidth() - widget.getWidth();
+            int newX = Math.max(0, Math.min((int) (mouseX - dragX), maxX));
+
+            int maxY = window.getGuiScaledHeight() - widget.getHeight();
+            int newY = Math.max(0, Math.min((int) (mouseY - dragY), maxY));
+            *///?} else {
             Window window = MinecraftClient.getInstance().getWindow();
 
             int maxX = window.getScaledWidth() - widget.getWidth();
@@ -113,13 +190,40 @@ public class PositionGui extends Screen
 
             int maxY = window.getScaledHeight() - widget.getHeight();
             int newY = Math.max(0, Math.min((int) (mouseY - dragY), maxY));
+            //?}
 
             widget.setX(newX);
             widget.setY(newY);
         }
     }
 
-    //? if >=1.21.10 {
+    //? if >=26.1 {
+    /*@Override
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubled)
+    {
+        if (event.button() == 0)
+        {
+            if (isHoveringOverWidget(event.x(), event.y()))
+            {
+                dragging = true;
+                dragX = (int) (event.x() - widget.getX());
+                dragY = (int) (event.y() - widget.getY());
+                return true;
+            }
+        }
+        return super.mouseClicked(event, doubled);
+    }
+
+    @Override
+    public boolean mouseReleased(MouseButtonEvent event)
+    {
+        if (event.button() == 0 && dragging)
+        {
+            dragging = false;
+        }
+        return true;
+    }
+    *///?} else if >=1.21.10 {
     @Override
     public boolean mouseClicked(Click click, boolean doubled)
     {
@@ -178,6 +282,200 @@ public class PositionGui extends Screen
         return mouseX > widget.getX() && mouseX < widget.getX() + widget.getWidth() && mouseY > widget.getY() && mouseY < widget.getY() + widget.getHeight();
     }
 
+    //? if >=26.1 {
+    /*class PositionWidget implements net.minecraft.client.gui.components.Renderable, net.minecraft.client.gui.components.events.GuiEventListener, net.minecraft.client.gui.layouts.LayoutElement, net.minecraft.client.gui.narration.NarratableEntry
+    {
+        protected int width;
+        protected int height;
+        private int x;
+        private int y;
+
+        private boolean focused;
+        protected boolean hovered;
+
+        public PositionWidget(int x, int y, int width, int height)
+        {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)
+        {
+            this.hovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
+
+            TipTapShowConfig config = TipTapShowConfig.loadConfig();
+            Minecraft client = Minecraft.getInstance();
+            if (client == null)
+            {
+                TipTapShowMod.LOGGER.error("Client was null, making all renders fail.");
+                return;
+            }
+
+            ArrayList<Row> unfinishedRows = new ArrayList<>();
+            int updatedRowWidth = (int) (ROW_WIDTH * config.displayFactor);
+            int updatedRowHeightNormal = (int) (ROW_HEIGHT_NORMAL * config.displayFactor);
+            int updatedRowHeightSmall = (int) (ROW_HEIGHT_SMALL * config.displayFactor);
+            while ((updatedRowWidth - 2) % 3 != 0 || (updatedRowWidth - 1) % 2 != 0)
+            {
+                updatedRowWidth++;
+            }
+            if (config.showMovement)
+            {
+                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, null, client.options.keyUp, null));
+                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, client.options.keyLeft, client.options.keyDown, client.options.keyRight));
+            }
+            if (config.showClick)
+            {
+                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, client.options.keyAttack, client.options.keyUse));
+            }
+            if (config.showJump)
+            {
+                unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightSmall, client.options.keyJump));
+            }
+
+            ArrayList<Row> rows = new ArrayList<>();
+            for (int i = 0; i < unfinishedRows.size(); i++)
+            {
+                Row row = unfinishedRows.get(i);
+                int height = this.y + ROW_SEPARATOR_SIZE * i;
+                for (int j = 0; j < i; j++)
+                {
+                    height += rows.get(j).getHeight();
+                }
+                row.setY(height);
+                rows.add(row);
+            }
+            for (Row row : rows)
+            {
+                row.render(context);
+            }
+
+            int rowHeight = 0;
+            for (Row row : rows)
+            {
+                rowHeight += row.getHeight();
+            }
+            setHeight(rowHeight);
+            setWidth(updatedRowWidth);
+
+            context.fill(this.x, this.y, this.x + updatedRowWidth, rows.getLast().getY() + rows.getLast().getHeight(), 0x373dff47);
+            Identifier texture = Identifier.parse(TipTapShowMod.MOD_ID + ":textures/positionguitexture.png");
+            context.blit(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y - 4,
+                    0, 0,
+                    16, 16, 6, 6, 16, 16);
+            context.blit(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y - 4,
+                    10, 0,
+                    16, 16, 6, 6, 16, 16);
+            context.blit(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y + this.height - 9,
+                    0, 10,
+                    16, 16, 6, 6, 16, 16);
+            context.blit(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y + this.height - 9,
+                    10, 10,
+                    16, 16, 6, 6, 16, 16);
+        }
+
+        @Override
+        public boolean isMouseOver(double mouseX, double mouseY)
+        {
+            return mouseX >= (double) this.getX() && mouseY >= (double) this.getY() && mouseX < (double) (this.getX() + this.width) && mouseY < (double) (this.getY() + this.height);
+        }
+
+        @Override
+        public void setFocused(boolean focused)
+        {
+            this.focused = focused;
+        }
+
+        @Override
+        public boolean isFocused()
+        {
+            return this.focused;
+        }
+
+        public boolean isHovered()
+        {
+            return this.hovered;
+        }
+
+        @Override
+        public net.minecraft.client.gui.navigation.ScreenRectangle getRectangle()
+        {
+            return net.minecraft.client.gui.layouts.LayoutElement.super.getRectangle();
+        }
+
+        @Override
+        public NarrationPriority narrationPriority()
+        {
+            if (this.isFocused())
+            {
+                return NarrationPriority.FOCUSED;
+            }
+            else
+            {
+                return this.hovered ? NarrationPriority.HOVERED : NarrationPriority.NONE;
+            }
+        }
+
+        @Override
+        public void setX(int x)
+        {
+            this.x = x;
+        }
+
+        @Override
+        public void setY(int y)
+        {
+            this.y = y;
+        }
+
+        @Override
+        public int getX()
+        {
+            return this.x;
+        }
+
+        @Override
+        public int getY()
+        {
+            return this.y;
+        }
+
+        public void setWidth(int width)
+        {
+            this.width = width;
+        }
+
+        @Override
+        public int getWidth()
+        {
+            return this.width;
+        }
+
+        public void setHeight(int height)
+        {
+            this.height = height;
+        }
+
+        @Override
+        public int getHeight()
+        {
+            return this.height;
+        }
+
+        @Override
+        public void visitWidgets(Consumer<net.minecraft.client.gui.components.AbstractWidget> consumer)
+        {
+        }
+
+        @Override
+        public void updateNarration(net.minecraft.client.gui.narration.NarrationElementOutput builder)
+        {
+        }
+    }
+    *///?} else {
     class PositionWidget implements Drawable, Element, Widget, Selectable
     {
         protected int width;
@@ -386,4 +684,5 @@ public class PositionGui extends Screen
         {
         }
     }
+    //?}
 }
