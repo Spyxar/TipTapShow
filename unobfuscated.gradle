@@ -57,6 +57,14 @@ tasks.withType(JavaCompile).configureEach {
     it.options.release = 25
 }
 
+// Builds the version into a shared folder in `build/libs/${mod version}/`
+tasks.register('buildAndCollect', Copy) {
+    group = "build"
+    from jar.collect { it.archiveFile }
+    into "${rootProject.layout.buildDirectory.get().asFile}/libs/${project.mod_version}"
+    dependsOn "build"
+}
+
 java {
     withSourcesJar()
 
