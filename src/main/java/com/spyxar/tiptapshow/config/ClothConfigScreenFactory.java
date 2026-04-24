@@ -7,19 +7,19 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.api.Requirement;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 //? if >=26.1 {
-/*import net.minecraft.client.Minecraft;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-*///?} else {
-import net.minecraft.client.MinecraftClient;
+//?} else {
+/*import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
-//?}
+*///?}
 
 public class ClothConfigScreenFactory
 {
     //? if >=26.1 {
-    /*public static Screen makeConfig(Screen parent)
+    public static Screen makeConfig(Screen parent)
     {
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent)
@@ -119,8 +119,8 @@ public class ClothConfigScreenFactory
         general.addEntry(display.build());
         return builder.build();
     }
-    *///?} else {
-    public static Screen makeConfig(Screen parent)
+    //?} else {
+    /*public static Screen makeConfig(Screen parent)
     {
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent)
@@ -194,8 +194,8 @@ public class ClothConfigScreenFactory
                 .setSaveConsumer(newValue -> TipTapShowMod.config.displayFactor = newValue).build());
         display.add(entryBuilder.startIntSlider(Text.translatable("config.tiptapshow.option.horizontalslider"), TipTapShowMod.config.horizontalSlider, 0,
                         //? if <1.21.8 {
-                        /*(int) (MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledWidth()))
-                        *///?} else {
+                        /^(int) (MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledWidth()))
+                        ^///?} else {
                         MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledWidth())
                         //?}
                 .setDefaultValue(20)
@@ -203,8 +203,8 @@ public class ClothConfigScreenFactory
                 .setSaveConsumer(newValue -> TipTapShowMod.config.horizontalSlider = newValue).build());
         display.add(entryBuilder.startIntSlider(Text.translatable("config.tiptapshow.option.verticalslider"), TipTapShowMod.config.verticalSlider, 0,
                         //? if <1.21.8 {
-                        /*(int) (MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledHeight()))
-                        *///?} else {
+                        /^(int) (MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledHeight()))
+                        ^///?} else {
                         MinecraftClient.getInstance().getWindow().getScaleFactor() * MinecraftClient.getInstance().getWindow().getScaledHeight())
                         //?}
                 .setDefaultValue(20)
@@ -228,5 +228,5 @@ public class ClothConfigScreenFactory
         general.addEntry(display.build());
         return builder.build();
     }
-    //?}
+    *///?}
 }

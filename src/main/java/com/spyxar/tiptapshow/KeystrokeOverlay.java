@@ -6,16 +6,16 @@ import com.spyxar.tiptapshow.config.TipTapShowConfig;
 //? if <1.21.8
 /*import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;*/
 //? if >=26.1 {
-/*import net.minecraft.client.Minecraft;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-*///?} else {
-import net.minecraft.client.MinecraftClient;
+//?} else {
+/*import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderTickCounter;
-//?}
+*///?}
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
     public static final int ROW_HEIGHT_SMALL = 20;
 
     @SuppressWarnings("RedundantArrayCreation")
-    public void onHudRender(/*? >=26.1 {*/ /*GuiGraphicsExtractor context, DeltaTracker tickCounter*/ /*?} else {*/ DrawContext context, RenderTickCounter tickCounter /*?}*/)
+    public void onHudRender(/*? >=26.1 {*/ GuiGraphicsExtractor context, DeltaTracker tickCounter /*?} else {*/ /*DrawContext context, RenderTickCounter tickCounter *//*?}*/)
     {
         TipTapShowConfig config = TipTapShowConfig.loadConfig();
         if (!config.isEnabled)
@@ -35,10 +35,10 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
             return;
         }
         //? if >=26.1 {
-        /*Minecraft client = Minecraft.getInstance();
-        *///?} else {
-        MinecraftClient client = MinecraftClient.getInstance();
-        //?}
+        Minecraft client = Minecraft.getInstance();
+        //?} else {
+        /*MinecraftClient client = MinecraftClient.getInstance();
+        *///?}
         if (client == null)
         {
             TipTapShowMod.LOGGER.error("Client was null, making all renders fail.");
@@ -46,7 +46,7 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
         }
 
         //? if >=26.1 {
-        /*if (!config.renderInDebugHud && client.getDebugOverlay().showDebugScreen())
+        if (!config.renderInDebugHud && client.getDebugOverlay().showDebugScreen())
         {
             return;
         }
@@ -66,8 +66,8 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
         {
             return;
         }
-        *///?} else {
-        if (!config.renderInDebugHud && client.getDebugHud().shouldShowDebugHud())
+        //?} else {
+        /*if (!config.renderInDebugHud && client.getDebugHud().shouldShowDebugHud())
         {
             return;
         }
@@ -87,16 +87,16 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
         {
             return;
         }
-        //?}
+        *///?}
 
         ArrayList<Row> unfinishedRows = new ArrayList<>();
         //? if >=26.1 {
-        /*int x = config.horizontalSlider / client.getWindow().getGuiScale();
-        *///?} else if <1.21.8 {
+        int x = config.horizontalSlider / client.getWindow().getGuiScale();
+        //?} else if <1.21.8 {
         /*int x = (int) (config.horizontalSlider / client.getWindow().getScaleFactor());
         *///?} else {
-        int x = config.horizontalSlider / client.getWindow().getScaleFactor();
-        //?}
+        /*int x = config.horizontalSlider / client.getWindow().getScaleFactor();
+        *///?}
         int updatedRowWidth = (int) (ROW_WIDTH * config.displayFactor);
         int updatedRowHeightNormal = (int) (ROW_HEIGHT_NORMAL * config.displayFactor);
         int updatedRowHeightSmall = (int) (ROW_HEIGHT_SMALL * config.displayFactor);
@@ -105,7 +105,7 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
             updatedRowWidth++;
         }
         //? if >=26.1 {
-        /*if (config.showMovement)
+        if (config.showMovement)
         {
             unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyMapping[]{null, client.options.keyUp, null}));
             unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyMapping[]{client.options.keyLeft, client.options.keyDown, client.options.keyRight}));
@@ -118,8 +118,8 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
         {
             unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightSmall, new KeyMapping[]{client.options.keyJump}));
         }
-        *///?} else {
-        if (config.showMovement)
+        //?} else {
+        /*if (config.showMovement)
         {
             unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{null, client.options.forwardKey, null}));
             unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightNormal, new KeyBinding[]{client.options.leftKey, client.options.backKey, client.options.rightKey}));
@@ -132,7 +132,7 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
         {
             unfinishedRows.add(new Row(x, 0, updatedRowWidth, updatedRowHeightSmall, new KeyBinding[]{client.options.jumpKey}));
         }
-        //?}
+        *///?}
 
         ArrayList<Row> rows = new ArrayList<>();
         //Height calculations
@@ -140,12 +140,12 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
         {
             Row row = unfinishedRows.get(i);
             //? if >=26.1 {
-            /*int height = (config.verticalSlider / client.getWindow().getGuiScale()) + ROW_SEPARATOR_SIZE * i;
-            *///?} else if <1.21.8 {
+            int height = (config.verticalSlider / client.getWindow().getGuiScale()) + ROW_SEPARATOR_SIZE * i;
+            //?} else if <1.21.8 {
             /*int height = (int) ((config.verticalSlider / client.getWindow().getScaleFactor()) + ROW_SEPARATOR_SIZE * i);
             *///?} else {
-            int height = (config.verticalSlider / client.getWindow().getScaleFactor()) + ROW_SEPARATOR_SIZE * i;
-             //?}
+            /*int height = (config.verticalSlider / client.getWindow().getScaleFactor()) + ROW_SEPARATOR_SIZE * i;
+             *///?}
             for (int j = 0; j < i; j++)
             {
                 height += rows.get(j).getHeight();

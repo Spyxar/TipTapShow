@@ -3,7 +3,7 @@ package com.spyxar.tiptapshow.config;
 import com.spyxar.tiptapshow.TipTapShowMod;
 import com.spyxar.tiptapshow.components.Row;
 //? if >=26.1 {
-/*import net.minecraft.client.Minecraft;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -12,8 +12,8 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-*///?} else {
-import net.minecraft.client.MinecraftClient;
+//?} else {
+/*import net.minecraft.client.MinecraftClient;
 //? if >1.21.5 {
 import net.minecraft.client.gl.RenderPipelines;
 //?}
@@ -27,7 +27,7 @@ import net.minecraft.client.util.Window;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-//?}
+*///?}
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -48,18 +48,18 @@ public class PositionGui extends Screen
     private final Screen parent;
 
     //? if >=26.1 {
-    /*public PositionGui(Component title, Screen previous)
+    public PositionGui(Component title, Screen previous)
     {
         super(title);
         parent = previous;
     }
-    *///?} else {
-    public PositionGui(Text title, Screen previous)
+    //?} else {
+    /*public PositionGui(Text title, Screen previous)
     {
         super(title);
         parent = previous;
     }
-    //?}
+    *///?}
 
     @Override
     protected void init()
@@ -67,7 +67,7 @@ public class PositionGui extends Screen
         TipTapShowConfig config = TipTapShowMod.config;
 
         //? if >=26.1 {
-        /*if (minecraft == null)
+        if (minecraft == null)
         {
             TipTapShowMod.LOGGER.error("Client was null, failed to open positioning screen.");
             return;
@@ -80,16 +80,16 @@ public class PositionGui extends Screen
                 .pos(this.width / 2 - 100, this.height - 27)
                 .size(200, 20)
                 .build());
-        *///?} else {
-        if (client == null)
+        //?} else {
+        /*if (client == null)
         {
             TipTapShowMod.LOGGER.error("Client was null, failed to open positioning screen.");
             return;
         }
 
         //? if <1.21.8 {
-        /*widget = new PositionWidget((int) (config.horizontalSlider / client.getWindow().getScaleFactor()), (int) (config.verticalSlider / client.getWindow().getScaleFactor()), 200, 50);
-        *///?} else {
+        /^widget = new PositionWidget((int) (config.horizontalSlider / client.getWindow().getScaleFactor()), (int) (config.verticalSlider / client.getWindow().getScaleFactor()), 200, 50);
+        ^///?} else {
         widget = new PositionWidget(config.horizontalSlider / client.getWindow().getScaleFactor(), config.verticalSlider / client.getWindow().getScaleFactor(), 200, 50);
         //?}
         this.addSelectableChild(widget);
@@ -98,12 +98,12 @@ public class PositionGui extends Screen
                 .position(this.width / 2 - 100, this.height - 27)
                 .size(200, 20)
                 .build());
-        //?}
+        *///?}
     }
 
     @Override
     //? if >=26.1 {
-    /*public void onClose()
+    public void onClose()
     {
         if (minecraft == null)
         {
@@ -117,8 +117,8 @@ public class PositionGui extends Screen
         config.verticalSlider = widget.getY() * minecraft.getWindow().getGuiScale();
         config.saveConfig();
     }
-    *///?} else {
-    public void close()
+    //?} else {
+    /*public void close()
     {
         if (client == null)
         {
@@ -129,26 +129,26 @@ public class PositionGui extends Screen
 
         TipTapShowConfig config = TipTapShowMod.config;
         //? if <1.21.8 {
-        /*config.horizontalSlider = (int) (widget.getX() * client.getWindow().getScaleFactor());
+        /^config.horizontalSlider = (int) (widget.getX() * client.getWindow().getScaleFactor());
         config.verticalSlider = (int) (widget.getY() * client.getWindow().getScaleFactor());
-        *///?} else {
+        ^///?} else {
         config.horizontalSlider = widget.getX() * client.getWindow().getScaleFactor();
         config.verticalSlider = widget.getY() * client.getWindow().getScaleFactor();
         //?}
         config.saveConfig();
     }
-    //?}
+    *///?}
 
     @Override
     //? if >=26.1 {
-    /*public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)
     {
         super.extractBackground(context, mouseX, mouseY, delta);
         widget.extractRenderState(context, mouseX, mouseY, delta);
         super.extractRenderState(context, mouseX, mouseY, delta);
     }
-    *///?} else {
-    public void render(DrawContext context, int mouseX, int mouseY, float delta)
+    //?} else {
+    /*public void render(DrawContext context, int mouseX, int mouseY, float delta)
     {
         super.renderBackground(context, mouseX, mouseY, delta);
 
@@ -156,18 +156,18 @@ public class PositionGui extends Screen
 
         super.render(context, mouseX, mouseY, delta);
     }
-    //?}
+    *///?}
 
     @Override
     //? if >=26.1 {
-    /*public void extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)
+    public void extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)
     {
     }
-    *///?} else {
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta)
+    //?} else {
+    /*public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta)
     {
     }
-    //?}
+    *///?}
 
     @Override
     public void mouseMoved(double mouseX, double mouseY)
@@ -175,22 +175,22 @@ public class PositionGui extends Screen
         if (dragging)
         {
             //? if >=26.1 {
-            /*var window = Minecraft.getInstance().getWindow();
+            var window = Minecraft.getInstance().getWindow();
 
             int maxX = window.getGuiScaledWidth() - widget.getWidth();
             int newX = Math.max(0, Math.min((int) (mouseX - dragX), maxX));
 
             int maxY = window.getGuiScaledHeight() - widget.getHeight();
             int newY = Math.max(0, Math.min((int) (mouseY - dragY), maxY));
-            *///?} else {
-            Window window = MinecraftClient.getInstance().getWindow();
+            //?} else {
+            /*Window window = MinecraftClient.getInstance().getWindow();
 
             int maxX = window.getScaledWidth() - widget.getWidth();
             int newX = Math.max(0, Math.min((int) (mouseX - dragX), maxX));
 
             int maxY = window.getScaledHeight() - widget.getHeight();
             int newY = Math.max(0, Math.min((int) (mouseY - dragY), maxY));
-            //?}
+            *///?}
 
             widget.setX(newX);
             widget.setY(newY);
@@ -198,7 +198,7 @@ public class PositionGui extends Screen
     }
 
     //? if >=26.1 {
-    /*@Override
+    @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubled)
     {
         if (event.button() == 0)
@@ -223,8 +223,8 @@ public class PositionGui extends Screen
         }
         return true;
     }
-    *///?} else if >=1.21.10 {
-    @Override
+    //?} else if >=1.21.10 {
+    /*@Override
     public boolean mouseClicked(Click click, boolean doubled)
     {
         if (click.button() == 0)
@@ -249,7 +249,7 @@ public class PositionGui extends Screen
         }
         return true;
     }
-    //?} else {
+    *///?} else {
     /*@Override
     public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
@@ -283,7 +283,7 @@ public class PositionGui extends Screen
     }
 
     //? if >=26.1 {
-    /*class PositionWidget implements net.minecraft.client.gui.components.Renderable, net.minecraft.client.gui.components.events.GuiEventListener, net.minecraft.client.gui.layouts.LayoutElement, net.minecraft.client.gui.narration.NarratableEntry
+    class PositionWidget implements net.minecraft.client.gui.components.Renderable, net.minecraft.client.gui.components.events.GuiEventListener, net.minecraft.client.gui.layouts.LayoutElement, net.minecraft.client.gui.narration.NarratableEntry
     {
         protected int width;
         protected int height;
@@ -475,8 +475,8 @@ public class PositionGui extends Screen
         {
         }
     }
-    *///?} else {
-    class PositionWidget implements Drawable, Element, Widget, Selectable
+    //?} else {
+    /*class PositionWidget implements Drawable, Element, Widget, Selectable
     {
         protected int width;
         protected int height;
@@ -571,7 +571,7 @@ public class PositionGui extends Screen
                     10, 10,
                     16, 16, 6, 6, 16, 16);
             //?} else if >1.21.4 {
-            /*context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y - 4,
+            /^context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y - 4,
                     0, 0,
                     16, 16, 6, 6, 16, 16);
             context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y - 4,
@@ -583,7 +583,7 @@ public class PositionGui extends Screen
             context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y + this.height - 9,
                     10, 10,
                     16, 16, 6, 6, 16, 16);
-            *///?}
+            ^///?}
         }
 
         @Override
@@ -684,5 +684,5 @@ public class PositionGui extends Screen
         {
         }
     }
-    //?}
+    *///?}
 }
