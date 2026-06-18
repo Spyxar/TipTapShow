@@ -60,8 +60,8 @@ tasks.withType<JavaCompile>().configureEach {
     options.release.set(21)
 }
 
-// Builds the version into a shared folder in `build/libs/${mod version}/`
 tasks.register<Copy>("buildAndCollect") {
+    description = "Builds the version jar into a shared folder in `build/libs/{mod version}/`"
     group = "build"
     from(tasks.remapJar.map { it.archiveFile })
     into(rootProject.layout.buildDirectory.file("/libs/${project.property("mod_version")}"))
