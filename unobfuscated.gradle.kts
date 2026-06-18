@@ -1,6 +1,6 @@
 plugins {
     id("maven-publish")
-    id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT"
+    id("net.fabricmc.fabric-loom")
 }
 
 version = "${project.property("mod_version")}+${stonecutter.current.version}"

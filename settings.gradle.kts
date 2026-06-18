@@ -5,6 +5,10 @@ pluginManagement {
         maven(url = "https://maven.fabricmc.net/")
         maven(url = "https://maven.kikugie.dev/snapshots")
     }
+    plugins {
+        id("fabric-loom") version providers.gradleProperty("loom_version").get()
+        id("net.fabricmc.fabric-loom") version providers.gradleProperty("loom_version").get()
+    }
 }
 
 plugins {
