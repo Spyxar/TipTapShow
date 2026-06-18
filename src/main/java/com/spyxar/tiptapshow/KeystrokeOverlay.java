@@ -50,11 +50,11 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
         {
             return;
         }
-        if (client.screen instanceof PositionGui)
+        if (client/*? >=26.2 {*/.gui.screen()/*?} else {*/ /*.screen *//*?}*/ instanceof PositionGui)
         {
             return;
         }
-        if (!config.renderInGui && client.screen != null)
+        if (!config.renderInGui && client/*? >=26.2 {*/.gui.screen()/*?} else {*/ /*.screen *//*?}*/ != null)
         {
             return;
         }
@@ -62,7 +62,7 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
         {
             return;
         }
-        if (client.options.hideGui)
+        if (client/*? >=26.2 {*/.gui.hud.isHidden()/*?} else {*/ /*.options.hideGui *//*?}*/)
         {
             return;
         }

@@ -36,7 +36,7 @@ public class MouseMixin
         {
             return;
         }
-        if (/*? >=26.1 {*/ Minecraft.getInstance().screen /*?} else {*/ /*MinecraftClient.getInstance().currentScreen *//*?}*/ != null)
+        if (/*? >=26.2 {*/ Minecraft.getInstance().gui.screen() /*?} elif >=26.1 {*/ /*Minecraft.getInstance().screen *//*?} else {*/ /*MinecraftClient.getInstance().currentScreen *//*?}*/ != null)
         {
             return;
         }

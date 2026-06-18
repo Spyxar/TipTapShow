@@ -93,17 +93,17 @@ public class TipTapShowMod implements ModInitializer
             {
                 if (FabricLoader.getInstance().isModLoaded("cloth-config2"))
                 {
-                    Minecraft.getInstance().setScreen(ClothConfigScreenFactory.makeConfig(null));
+                    Minecraft.getInstance()/*? >=26.2 {*/.gui/*?}*/.setScreen(ClothConfigScreenFactory.makeConfig(null));
                 }
                 else
                 {
-                    SystemToast.add(Minecraft.getInstance().getToastManager(), SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("toast.tiptapshow.openconfigfailed"), Component.translatable("toast.tiptapshow.clothconfigmissing"));
+                    SystemToast.add(Minecraft.getInstance()/*? >=26.2 {*/.gui.toastManager()/*?} else {*/ /*.getToastManager() *//*?}*/, SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("toast.tiptapshow.openconfigfailed"), Component.translatable("toast.tiptapshow.clothconfigmissing"));
                     LOGGER.warn("Open config keybind was pressed, but ClothConfig was not found.");
                 }
             }
             if (positionKeyMapping.consumeClick())
             {
-                client.setScreen((new PositionGui(Component.literal("Positioning"), null)));
+                client/*? >=26.2 {*/.gui/*?}*/.setScreen((new PositionGui(null)));
             }
             //?} else {
             /*if (openConfigKeyBinding.wasPressed())
@@ -120,7 +120,7 @@ public class TipTapShowMod implements ModInitializer
             }
             if (positionKeyBinding.wasPressed())
             {
-                client.setScreen((new PositionGui(Text.literal("Positioning"), null)));
+                client.setScreen((new PositionGui(null)));
             }
             *///?}
         });

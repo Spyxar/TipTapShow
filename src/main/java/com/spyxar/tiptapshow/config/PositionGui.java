@@ -47,16 +47,17 @@ public class PositionGui extends Screen
 
     private final Screen parent;
 
+    //ToDo: Use Component.translatable
     //? if >=26.1 {
-    public PositionGui(Component title, Screen previous)
+    public PositionGui(Screen previous)
     {
-        super(title);
+        super(Component.literal("Positioning"));
         parent = previous;
     }
     //?} else {
-    /*public PositionGui(Text title, Screen previous)
+    /*public PositionGui(Screen previous)
     {
-        super(title);
+        super(Text.literal("Positioning"));
         parent = previous;
     }
     *///?}
@@ -110,7 +111,7 @@ public class PositionGui extends Screen
             TipTapShowMod.LOGGER.error("Client was null, failed to save position and close screen.");
             return;
         }
-        minecraft.setScreen(parent);
+        minecraft/*? >=26.2 {*/.gui.setScreen(parent)/*?} else {*/ /*.setScreen(parent) *//*?}*/;
 
         TipTapShowConfig config = TipTapShowMod.config;
         config.horizontalSlider = widget.getX() * minecraft.getWindow().getGuiScale();
