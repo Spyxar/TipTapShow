@@ -13,8 +13,10 @@ base {
 repositories {
     //ModMenu
     maven(url = "https://maven.terraformersmc.com/releases/")
-    //Cloth Config
-    maven(url = "https://maven.shedaniel.me/")
+    //YACL
+    maven(url = "https://maven.isxander.dev/releases") {
+        name = "Xander Maven"
+    }
 }
 
 dependencies {
@@ -25,14 +27,8 @@ dependencies {
     //ModMenu
     implementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
 
-    //Cloth Config
-    implementation("me.shedaniel.cloth:cloth-config-fabric:${property("clothconfig_version")}") {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-
-    //Toml
-    implementation("com.moandjiezana.toml:toml4j:${project.property("toml4j_version")}")
-    include("com.moandjiezana.toml:toml4j:${project.property("toml4j_version")}")
+    //YACL
+    implementation("dev.isxander:yet-another-config-lib:${property("yacl_version")}")
 }
 
 tasks.processResources {

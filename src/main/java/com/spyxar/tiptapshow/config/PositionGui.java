@@ -1,20 +1,21 @@
+//~ component_text
+//~ minecraft_minecraftclient
 package com.spyxar.tiptapshow.config;
 
 import com.spyxar.tiptapshow.TipTapShowMod;
 import com.spyxar.tiptapshow.components.Row;
-//? if >=26.1 {
+import net.minecraft.network.chat.Component;
 import net.minecraft.client.Minecraft;
+//? if >=26.1 {
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 //?} else {
-/*import net.minecraft.client.MinecraftClient;
-//? if >1.21.5 {
+/*//? if >1.21.5 {
 import net.minecraft.client.gl.RenderPipelines;
 //?}
 import net.minecraft.client.gui.*;
@@ -24,8 +25,7 @@ import net.minecraft.client.gui.widget.*;
 //? if >1.21.4
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.Window;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
+import net.minecraft.screen.ScreenComponents;
 import net.minecraft.util.Identifier;
 *///?}
 
@@ -57,7 +57,7 @@ public class PositionGui extends Screen
     //?} else {
     /*public PositionGui(Screen previous)
     {
-        super(Text.literal("Positioning"));
+        super(Component.literal("Positioning"));
         parent = previous;
     }
     *///?}
@@ -65,7 +65,7 @@ public class PositionGui extends Screen
     @Override
     protected void init()
     {
-        TipTapShowConfig config = TipTapShowMod.config;
+//        TipTapShowConfig config = TipTapShowMod.config;
 
         //? if >=26.1 {
         if (minecraft == null)
@@ -74,7 +74,8 @@ public class PositionGui extends Screen
             return;
         }
 
-        widget = new PositionWidget(config.horizontalSlider / minecraft.getWindow().getGuiScale(), config.verticalSlider / minecraft.getWindow().getGuiScale(), 200, 50);
+        widget = new PositionWidget(TipTapShowConfig.CONFIG.instance().horizontalSlider / minecraft.getWindow().getGuiScale(), TipTapShowConfig.CONFIG.instance().verticalSlider / minecraft.getWindow().getGuiScale(), 200, 50);
+
         this.addWidget(widget);
 
         this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, (button) -> onClose())
@@ -89,13 +90,13 @@ public class PositionGui extends Screen
         }
 
         //? if <1.21.8 {
-        /^widget = new PositionWidget((int) (config.horizontalSlider / client.getWindow().getScaleFactor()), (int) (config.verticalSlider / client.getWindow().getScaleFactor()), 200, 50);
+        /^widget = new PositionWidget((int) (TipTapShowConfig.CONFIG.instance().horizontalSlider / client.getWindow().getScaleFactor()), (int) (TipTapShowConfig.CONFIG.instance().verticalSlider / client.getWindow().getScaleFactor()), 200, 50);
         ^///?} else {
-        widget = new PositionWidget(config.horizontalSlider / client.getWindow().getScaleFactor(), config.verticalSlider / client.getWindow().getScaleFactor(), 200, 50);
+        widget = new PositionWidget(TipTapShowConfig.CONFIG.instance().horizontalSlider / client.getWindow().getScaleFactor(), TipTapShowConfig.CONFIG.instance().verticalSlider / client.getWindow().getScaleFactor(), 200, 50);
         //?}
         this.addSelectableChild(widget);
 
-        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> close())
+        this.addDrawableChild(ButtonWidget.builder(ScreenComponents.DONE, (button) -> close())
                 .position(this.width / 2 - 100, this.height - 27)
                 .size(200, 20)
                 .build());
@@ -113,10 +114,9 @@ public class PositionGui extends Screen
         }
         minecraft/*? >=26.2 {*/.gui.setScreen(parent)/*?} else {*/ /*.setScreen(parent) *//*?}*/;
 
-        TipTapShowConfig config = TipTapShowMod.config;
-        config.horizontalSlider = widget.getX() * minecraft.getWindow().getGuiScale();
-        config.verticalSlider = widget.getY() * minecraft.getWindow().getGuiScale();
-        config.saveConfig();
+        TipTapShowConfig.CONFIG.instance().horizontalSlider = widget.getX() * minecraft.getWindow().getGuiScale();
+        TipTapShowConfig.CONFIG.instance().verticalSlider = widget.getY() * minecraft.getWindow().getGuiScale();
+        TipTapShowConfig.CONFIG.save();
     }
     //?} else {
     /*public void close()
@@ -128,15 +128,14 @@ public class PositionGui extends Screen
         }
         client.setScreen(parent);
 
-        TipTapShowConfig config = TipTapShowMod.config;
         //? if <1.21.8 {
-        /^config.horizontalSlider = (int) (widget.getX() * client.getWindow().getScaleFactor());
-        config.verticalSlider = (int) (widget.getY() * client.getWindow().getScaleFactor());
+        /^TipTapShowConfig.CONFIG.instance().horizontalSlider = (int) (widget.getX() * client.getWindow().getScaleFactor());
+        TipTapShowConfig.CONFIG.instance().verticalSlider = (int) (widget.getY() * client.getWindow().getScaleFactor());
         ^///?} else {
-        config.horizontalSlider = widget.getX() * client.getWindow().getScaleFactor();
-        config.verticalSlider = widget.getY() * client.getWindow().getScaleFactor();
+        TipTapShowConfig.CONFIG.instance().horizontalSlider = widget.getX() * client.getWindow().getScaleFactor();
+        TipTapShowConfig.CONFIG.instance().verticalSlider = widget.getY() * client.getWindow().getScaleFactor();
         //?}
-        config.saveConfig();
+        TipTapShowConfig.CONFIG.save();
     }
     *///?}
 
@@ -184,7 +183,7 @@ public class PositionGui extends Screen
             int maxY = window.getGuiScaledHeight() - widget.getHeight();
             int newY = Math.max(0, Math.min((int) (mouseY - dragY), maxY));
             //?} else {
-            /*Window window = MinecraftClient.getInstance().getWindow();
+            /*Window window = Minecraft.getInstance().getWindow();
 
             int maxX = window.getScaledWidth() - widget.getWidth();
             int newX = Math.max(0, Math.min((int) (mouseX - dragX), maxX));
@@ -307,7 +306,7 @@ public class PositionGui extends Screen
         {
             this.hovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
 
-            TipTapShowConfig config = TipTapShowConfig.loadConfig();
+            TipTapShowConfig config = TipTapShowConfig.CONFIG.instance();
             Minecraft client = Minecraft.getInstance();
             if (client == null)
             {
@@ -500,8 +499,8 @@ public class PositionGui extends Screen
         {
             this.hovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
 
-            TipTapShowConfig config = TipTapShowConfig.loadConfig();
-            MinecraftClient client = MinecraftClient.getInstance();
+            TipTapShowConfig config = TipTapShowConfig.CONFIG.instance();
+            Minecraft client = Minecraft.getInstance();
             if (client == null)
             {
                 TipTapShowMod.LOGGER.error("Client was null, making all renders fail.");
@@ -559,29 +558,29 @@ public class PositionGui extends Screen
             context.fill(this.x, this.y, this.x + updatedRowWidth, rows.getLast().getY() + rows.getLast().getHeight(), 0x373dff47);
             Identifier texture = Identifier.of(TipTapShowMod.MOD_ID, "textures/positionguitexture.png");
             //? if >=1.21.8 {
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y - 4,
+            context.drawComponenture(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y - 4,
                     0, 0,
                     16, 16, 6, 6, 16, 16);
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y - 4,
+            context.drawComponenture(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y - 4,
                     10, 0,
                     16, 16, 6, 6, 16, 16);
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y + this.height - 9,
+            context.drawComponenture(RenderPipelines.GUI_TEXTURED, texture, this.x - 4, this.y + this.height - 9,
                     0, 10,
                     16, 16, 6, 6, 16, 16);
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y + this.height - 9,
+            context.drawComponenture(RenderPipelines.GUI_TEXTURED, texture, this.x + this.width - 12, this.y + this.height - 9,
                     10, 10,
                     16, 16, 6, 6, 16, 16);
             //?} else if >1.21.4 {
-            /^context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y - 4,
+            /^context.drawComponenture(RenderLayer::getGuiComponentured, texture, this.x - 4, this.y - 4,
                     0, 0,
                     16, 16, 6, 6, 16, 16);
-            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y - 4,
+            context.drawComponenture(RenderLayer::getGuiComponentured, texture, this.x + this.width - 12, this.y - 4,
                     10, 0,
                     16, 16, 6, 6, 16, 16);
-            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x - 4, this.y + this.height - 9,
+            context.drawComponenture(RenderLayer::getGuiComponentured, texture, this.x - 4, this.y + this.height - 9,
                     0, 10,
                     16, 16, 6, 6, 16, 16);
-            context.drawTexture(RenderLayer::getGuiTextured, texture, this.x + this.width - 12, this.y + this.height - 9,
+            context.drawComponenture(RenderLayer::getGuiComponentured, texture, this.x + this.width - 12, this.y + this.height - 9,
                     10, 10,
                     16, 16, 6, 6, 16, 16);
             ^///?}

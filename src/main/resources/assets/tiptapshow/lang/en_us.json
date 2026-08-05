@@ -61,5 +61,5 @@
   "key.tiptapshow.openposition": "Change Position",
 
   "toast.tiptapshow.openconfigfailed": "TipTapShow: Failed to open config",
-  "toast.tiptapshow.clothconfigmissing": "ClothConfig was not found"
+  "toast.tiptapshow.yaclmissing": "YACL was not found"
 }

@@ -1,6 +1,6 @@
 package com.spyxar.tiptapshow;
 
-import com.spyxar.tiptapshow.config.ClothConfigScreenFactory;
+import com.spyxar.tiptapshow.config.YaclScreenFactory;
 import com.spyxar.tiptapshow.config.PositionGui;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
 import net.fabricmc.api.ModInitializer;
@@ -38,12 +38,10 @@ import org.lwjgl.glfw.GLFW;
 public class TipTapShowMod implements ModInitializer
 {
     //ToDo features:
-    // Allow the adding of custom keys - for this to work we will likely need to completely write our own config screens etc.
-    //  because Cloth doesn't allow for adding an expandable list of keybinds like it does for things like strings
+    // Allow the adding of custom keys - for this to work we will likely need to write our own YACL controller and wrap that in a ListOption
     public static final String MOD_ID = "tiptapshow";
 
     public static TipTapShowMod instance = null;
-    public static TipTapShowConfig config = null;
 
     public static final Logger LOGGER = LogManager.getLogger("TipTapShow");
 
@@ -59,7 +57,7 @@ public class TipTapShowMod implements ModInitializer
     public void onInitialize()
     {
         instance = this;
-        config = TipTapShowConfig.loadConfig();
+        TipTapShowConfig.CONFIG.load();
 
         //? if <1.21.8 {
         /*HudRenderCallback.EVENT.register(OVERLAY);
@@ -85,20 +83,20 @@ public class TipTapShowMod implements ModInitializer
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (/*? >=26.1 {*/ toggleKeyMapping.consumeClick() /*?} else {*/ /*toggleKeyBinding.wasPressed() *//*?}*/)
             {
-                config.isEnabled = !config.isEnabled;
-                config.saveConfig();
+                TipTapShowConfig.CONFIG.instance().isEnabled = !TipTapShowConfig.CONFIG.instance().isEnabled;
+                TipTapShowConfig.CONFIG.save();
             }
             //? if >=26.1 {
             if (openConfigKeyMapping.consumeClick())
             {
-                if (FabricLoader.getInstance().isModLoaded("cloth-config2"))
+                if (FabricLoader.getInstance().isModLoaded("yet_another_config_lib_v3"))
                 {
-                    Minecraft.getInstance()/*? >=26.2 {*/.gui/*?}*/.setScreen(ClothConfigScreenFactory.makeConfig(null));
+                    Minecraft.getInstance()/*? >=26.2 {*/.gui/*?}*/.setScreen(YaclScreenFactory.getModConfigScreenFactory(null));
                 }
                 else
                 {
-                    SystemToast.add(Minecraft.getInstance()/*? >=26.2 {*/.gui.toastManager()/*?} else {*/ /*.getToastManager() *//*?}*/, SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("toast.tiptapshow.openconfigfailed"), Component.translatable("toast.tiptapshow.clothconfigmissing"));
-                    LOGGER.warn("Open config keybind was pressed, but ClothConfig was not found.");
+                    SystemToast.add(Minecraft.getInstance()/*? >=26.2 {*/.gui.toastManager()/*?} else {*/ /*.getToastManager() *//*?}*/, SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("toast.tiptapshow.openconfigfailed"), Component.translatable("toast.tiptapshow.yaclmissing"));
+                    LOGGER.warn("Open config keybind was pressed, but YACL was not found.");
                 }
             }
             if (positionKeyMapping.consumeClick())
@@ -108,14 +106,14 @@ public class TipTapShowMod implements ModInitializer
             //?} else {
             /*if (openConfigKeyBinding.wasPressed())
             {
-                if (FabricLoader.getInstance().isModLoaded("cloth-config2"))
+                if (FabricLoader.getInstance().isModLoaded("yet_another_config_lib_v3"))
                 {
-                    MinecraftClient.getInstance().setScreen(ClothConfigScreenFactory.makeConfig(null));
+                    MinecraftClient.getInstance().setScreen(YaclScreenFactory.getModConfigScreenFactory(null));
                 }
                 else
                 {
-                    SystemToast.add(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.PERIODIC_NOTIFICATION, Text.translatable("toast.tiptapshow.openconfigfailed"), Text.translatable("toast.tiptapshow.clothconfigmissing"));
-                    LOGGER.warn("Open config keybind was pressed, but ClothConfig was not found.");
+                    SystemToast.add(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.PERIODIC_NOTIFICATION, Text.translatable("toast.tiptapshow.openconfigfailed"), Text.translatable("toast.tiptapshow.yaclmissing"));
+                    LOGGER.warn("Open config keybind was pressed, but YACL was not found.");
                 }
             }
             if (positionKeyBinding.wasPressed())

@@ -54,5 +54,5 @@
   "key.tiptapshow.toggleoverlay": "切换覆盖层",
   "key.tiptapshow.openposition": "改变位置",
   "toast.tiptapshow.openconfigfailed": "TipTapShow：打开设置失败",
-  "toast.tiptapshow.clothconfigmissing": "未找到ClothConfig"
+  "toast.tiptapshow.yaclmissing": "未找到YACL"
 }

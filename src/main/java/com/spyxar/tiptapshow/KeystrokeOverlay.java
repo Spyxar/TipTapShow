@@ -1,18 +1,18 @@
+//~ minecraft_minecraftclient
 package com.spyxar.tiptapshow;
 
 import com.spyxar.tiptapshow.components.Row;
 import com.spyxar.tiptapshow.config.PositionGui;
 import com.spyxar.tiptapshow.config.TipTapShowConfig;
-//? if <1.21.8
-/*import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;*/
-//? if >=26.1 {
 import net.minecraft.client.Minecraft;
+//? if <1.21.8
+//import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+//? if >=26.1 {
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 //?} else {
-/*import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
+/*import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderTickCounter;
 *///?}
@@ -29,16 +29,13 @@ public class KeystrokeOverlay /*? <1.21.8 {*/ /*implements HudRenderCallback *//
     @SuppressWarnings("RedundantArrayCreation")
     public void onHudRender(/*? >=26.1 {*/ GuiGraphicsExtractor context, DeltaTracker tickCounter /*?} else {*/ /*DrawContext context, RenderTickCounter tickCounter *//*?}*/)
     {
-        TipTapShowConfig config = TipTapShowConfig.loadConfig();
+        TipTapShowConfig config = TipTapShowConfig.CONFIG.instance();
         if (!config.isEnabled)
         {
             return;
         }
-        //? if >=26.1 {
+
         Minecraft client = Minecraft.getInstance();
-        //?} else {
-        /*MinecraftClient client = MinecraftClient.getInstance();
-        *///?}
         if (client == null)
         {
             TipTapShowMod.LOGGER.error("Client was null, making all renders fail.");

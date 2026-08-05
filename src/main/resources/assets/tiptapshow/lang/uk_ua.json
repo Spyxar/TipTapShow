@@ -57,5 +57,5 @@
   "key.tiptapshow.openposition": "Змінити позицію",
 
   "toast.tiptapshow.openconfigfailed": "TipTapShow: Помилка у видкртті конфігу",
-  "toast.tiptapshow.clothconfigmissing": "ClothConfig не знайдений"
+  "toast.tiptapshow.yaclmissing": "YACL не знайдений"
 }

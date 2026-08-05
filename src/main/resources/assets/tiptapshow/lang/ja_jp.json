@@ -54,5 +54,5 @@
   "key.tiptapshow.toggleoverlay": "オーバーレイ切り替え",
   "key.tiptapshow.openposition": "位置を変更",
   "toast.tiptapshow.openconfigfailed": "TipTapShow：設定の読み込みに失敗しました",
-  "toast.tiptapshow.clothconfigmissing": "ClothConfigが見つかりません"
+  "toast.tiptapshow.yaclmissing": "YACLが見つかりません"
 }
