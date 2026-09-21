@@ -33,7 +33,9 @@ import net.minecraft.util.Identifier;
 *///?}
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.glfw.GLFW;
+//? if <=26.2 {
+/*import org.lwjgl.glfw.GLFW;
+*///?}
 
 public class TipTapShowMod implements ModInitializer
 {
@@ -67,11 +69,15 @@ public class TipTapShowMod implements ModInitializer
         /*HudElementRegistry.addLast(Identifier.of(MOD_ID, "keystroke_overlay"), OVERLAY::onHudRender);
          *///?}
 
-        //? if >=26.1 {
-        KeyMapping openConfigKeyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.tiptapshow.openconfig", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));
+        //? if >=26.3 {
+        KeyMapping openConfigKeyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.tiptapshow.openconfig", InputConstants.Type.KEYBOARD, InputConstants.UNKNOWN.getValue(), MAIN_CATEGORY));
+        KeyMapping positionKeyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.tiptapshow.openposition", InputConstants.Type.KEYBOARD, InputConstants.UNKNOWN.getValue(), MAIN_CATEGORY));
+        KeyMapping toggleKeyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.tiptapshow.toggleoverlay", InputConstants.Type.KEYBOARD, InputConstants.UNKNOWN.getValue(), MAIN_CATEGORY));
+        //? } else if >=26.1 {
+        /*KeyMapping openConfigKeyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.tiptapshow.openconfig", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));
         KeyMapping positionKeyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.tiptapshow.openposition", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));
         KeyMapping toggleKeyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.tiptapshow.toggleoverlay", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));
-        //?} else if >=1.21.10 {
+        *///?} else if >=1.21.10 {
         /*KeyBinding openConfigKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openconfig", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));
         KeyBinding positionKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.openposition", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));
         KeyBinding toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.tiptapshow.toggleoverlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, MAIN_CATEGORY));

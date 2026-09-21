@@ -2,6 +2,7 @@ package com.spyxar.tiptapshow.mixin;
 
 import com.spyxar.tiptapshow.ClickCounter;
 //? if >=26.1 {
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -11,7 +12,9 @@ import net.minecraft.client.Mouse;
 //? if >=1.21.10
 import net.minecraft.client.input.MouseInput;
 *///?}
-import org.lwjgl.glfw.GLFW;
+//? if <=26.2 {
+/*import org.lwjgl.glfw.GLFW;
+ *///?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,7 +35,7 @@ public class MouseMixin
     ^///?}
     *///?}
     {
-        if (action != GLFW.GLFW_PRESS)
+        if (action != /*? >=26.3 {*/ InputConstants.PRESS /*?} else {*/ /*GLFW.GLFW_PRESS *//*?}*/)
         {
             return;
         }
@@ -41,11 +44,11 @@ public class MouseMixin
             return;
         }
 
-        if (/*? >=1.21.10 {*/ input.button() /*?} else {*/ /*button *//*?}*/ == GLFW.GLFW_MOUSE_BUTTON_RIGHT)
+        if (/*? >=1.21.10 {*/ input.button() /*?} else {*/ /*button *//*?}*/ == /*? >=26.3 {*/ InputConstants.MOUSE_BUTTON_RIGHT /*?} else {*/ /*GLFW.GLFW_MOUSE_BUTTON_RIGHT *//*?}*/)
         {
             ClickCounter.registerRightClick();
         }
-        if (/*? >=1.21.10 {*/ input.button() /*?} else {*/ /*button *//*?}*/ == GLFW.GLFW_MOUSE_BUTTON_LEFT)
+        if (/*? >=1.21.10 {*/ input.button() /*?} else {*/ /*button *//*?}*/ == /*? >=26.3 {*/ InputConstants.MOUSE_BUTTON_LEFT /*?} else {*/ /*GLFW.GLFW_MOUSE_BUTTON_LEFT *//*?}*/)
         {
             ClickCounter.registerLeftClick();
         }

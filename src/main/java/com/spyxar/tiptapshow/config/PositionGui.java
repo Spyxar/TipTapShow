@@ -14,6 +14,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.Identifier;
+import com.mojang.blaze3d.platform.InputConstants;
 //?} else {
 /*//? if >1.21.5 {
 import net.minecraft.client.gl.RenderPipelines;
@@ -201,7 +202,7 @@ public class PositionGui extends Screen
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubled)
     {
-        if (event.button() == 0)
+        if (event.button() == /*? >=26.3 {*/ InputConstants.MOUSE_BUTTON_LEFT /*?} else {*/ /*0 *//*?}*/)
         {
             if (isHoveringOverWidget(event.x(), event.y()))
             {
@@ -217,7 +218,7 @@ public class PositionGui extends Screen
     @Override
     public boolean mouseReleased(MouseButtonEvent event)
     {
-        if (event.button() == 0 && dragging)
+        if (event.button() == /*? >=26.3 {*/ InputConstants.MOUSE_BUTTON_LEFT /*?} else {*/ /*0 *//*?}*/ && dragging)
         {
             dragging = false;
         }
